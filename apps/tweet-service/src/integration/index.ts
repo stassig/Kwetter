@@ -8,8 +8,7 @@ export async function CreateTweet(data: any) {
     .create({
       data: data,
     })
-    .catch((error) => {
-      console.log(error);
+    .catch(() => {
       return null;
     });
   return tweet;
