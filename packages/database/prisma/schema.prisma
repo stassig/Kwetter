@@ -10,7 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Tweet {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   user        String       

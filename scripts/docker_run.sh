@@ -1,4 +1,3 @@
-# TODO: Implement container checking and cleanup
 # make runnable script
 chmod +x docker_run.sh
 # run script
