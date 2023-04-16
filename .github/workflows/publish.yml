@@ -34,6 +34,7 @@ jobs:
           docker-compose -f docker-compose.yml build
           docker-compose -f docker-compose.yml config --services | while read -r service; do
             image_name="$ACR_REGISTRY_NAME.azurecr.io/$service:$COMMIT_SHA"
-            docker tag "${service}" "${image_name}"
+            compose_image_name="$(docker-compose -f docker-compose.yml images -q $service)"
+            docker tag "${compose_image_name}" "${image_name}"
             docker push "${image_name}"
           done
