@@ -36,6 +36,6 @@ jobs:
       - name: Push Docker images to ACR
         run: |
           for image in $(docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} config --services); do
-            docker tag $image ${{ env.ACR_NAME }}.azurecr.io/$image:latest
-            docker push ${{ env.ACR_NAME }}.azurecr.io/$image:latest
+            docker tag individualproject_$image ${{ env.ACR_NAME }}.azurecr.io/individualproject_$image:latest
+            docker push ${{ env.ACR_NAME }}.azurecr.io/individualproject_$image:latest
           done
