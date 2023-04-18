@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/web/Dockerfile
-    image: g3containerregistry.azurecr.io/web:latest
+    image: web:latest
     restart: always
     ports:
       - 3000:3000
@@ -18,7 +18,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/tweet-service/Dockerfile
-    image: g3containerregistry.azurecr.io/tweet-service:latest
+    image: tweet-service:latest
     restart: always
     ports:
       - 3001:3001
