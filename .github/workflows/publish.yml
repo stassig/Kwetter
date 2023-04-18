@@ -25,7 +25,12 @@ jobs:
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
 
-      - name: Build and Push Docker Compose Services
+      - name: List Docker images
+        run: docker images
+
+      - name: Push Docker images to ACR
         run: |
-          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} build
-          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} config | sed 's/image: /image: ${{ env.ACR_NAME }}.azurecr.io\//g' | docker-compose -f - push
+          for image in $(docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} config --services); do
+            docker tag $image ${{ env.ACR_NAME }}.azurecr.io/$image:latest
+            docker push ${{ env.ACR_NAME }}.azurecr.io/$image:latest
+          done
