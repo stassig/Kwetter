@@ -1,4 +1,6 @@
 export default function Web() {
+  console.log("Hello from the web app!");
+
   const data = [
     {
       user: "John Doe",
