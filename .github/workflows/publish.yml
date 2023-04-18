@@ -28,4 +28,4 @@ jobs:
       - name: Build and Push Docker Compose Services
         run: |
           docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} build
-          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} push
+          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} config | sed 's/image: /image: ${{ env.ACR_NAME }}.azurecr.io\//g' | docker-compose -f - push
