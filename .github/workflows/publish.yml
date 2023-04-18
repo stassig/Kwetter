@@ -14,6 +14,7 @@ jobs:
       ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
       ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
       DOCKER_COMPOSE_FILE: docker-compose.yml
+      COMMIT_HASH: ${{ github.sha }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -32,6 +33,6 @@ jobs:
       - name: Push Docker images to ACR
         run: |
           for image in $(docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} config --services); do
-            docker tag $image ${{ env.ACR_NAME }}.azurecr.io/$image:$COMMIT_HASH
-            docker push ${{ env.ACR_NAME }}.azurecr.io/$image:$COMMIT_HASH
+            docker tag $image ${{ env.ACR_NAME }}.azurecr.io/$image:${{ env.COMMIT_HASH }}
+            docker push ${{ env.ACR_NAME }}.azurecr.io/$image:${{ env.COMMIT_HASH }}
           done
