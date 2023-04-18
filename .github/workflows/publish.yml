@@ -16,7 +16,7 @@ jobs:
       DOCKER_COMPOSE_FILE: docker-compose.yml
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Log in to ACR
         uses: azure/docker-login@v1
@@ -25,12 +25,9 @@ jobs:
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
 
-      - name: Build and Push Docker Compose Services
+      - name: Build docker images
         run: |
           docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} build
-
-      - name: List Docker images
-        run: docker images
 
       - name: Push Docker images to ACR
         run: |
