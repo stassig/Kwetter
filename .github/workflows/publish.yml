@@ -36,3 +36,14 @@ jobs:
             docker tag $image ${{ env.ACR_NAME }}.azurecr.io/$image:${{ env.COMMIT_HASH }}
             docker push ${{ env.ACR_NAME }}.azurecr.io/$image:${{ env.COMMIT_HASH }}
           done
+
+      - name: Deploy to AKS
+        working-directory: k8s
+        env:
+          KUBECONFIG_FILE: kubeconfig.yaml
+          COMMIT_HASH: ${{ github.sha }}
+        run: |
+          echo "${{ secrets.KUBECONFIG }}" > ${{ env.KUBECONFIG_FILE }}
+          export KUBECONFIG=${{ env.KUBECONFIG_FILE }}
+          sed -i 's/CICD_PLACEHOLDER/${{ env.COMMIT_HASH }}/' kustomization.yaml
+          kubectl kustomize . | kubectl apply -f -

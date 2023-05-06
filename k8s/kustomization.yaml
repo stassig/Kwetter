@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - tweet-service-deployment.yaml
+  - tweet-service-service.yaml
+  - web-service-deployment.yaml
+  - web-service-service.yaml
+  - api-gateway-ingress.yaml
+  - cors-plugin.yaml
+
+images:
+  - name: spContaineRegistry.azurecr.io/tweet-service
+    newName: spContaineRegistry.azurecr.io/tweet-service
+    newTag: CICD_PLACEHOLDER
+  - name: spContaineRegistry.azurecr.io/web
+    newName: spContaineRegistry.azurecr.io/web
+    newTag: CICD_PLACEHOLDER

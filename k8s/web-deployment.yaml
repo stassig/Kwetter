@@ -18,7 +18,7 @@ spec:
       imagePullSecrets:
         - name: acr-credentials
       containers:
-        - image: spContaineRegistry.azurecr.io/web:94d9959c5e270b63ff05899cddb3f1f5eeed4ee4
+        - image: spContaineRegistry.azurecr.io/web:56875613373f0b503efdee36a65e52920f329c15
           name: web-service
           ports:
             - containerPort: 3002
