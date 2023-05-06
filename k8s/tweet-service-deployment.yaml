@@ -18,7 +18,7 @@ spec:
       imagePullSecrets:
         - name: acr-credentials
       containers:
-        - image: spContaineRegistry.azurecr.io/tweet-service:56875613373f0b503efdee36a65e52920f329c15
+        - image: spContaineRegistry.azurecr.io/tweet-service:${{ env.COMMIT_HASH }}
           name: tweet-service
           ports:
             - containerPort: 3001
