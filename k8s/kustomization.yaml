@@ -3,9 +3,7 @@ kind: Kustomization
 
 resources:
   - tweet-service-deployment.yaml
-  - tweet-service-service.yaml
-  - web-service-deployment.yaml
-  - web-service-service.yaml
+  - web-deployment.yaml
   - api-gateway-ingress.yaml
   - cors-plugin.yaml
 
