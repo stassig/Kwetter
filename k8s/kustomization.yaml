@@ -6,6 +6,7 @@ resources:
   - web-deployment.yaml
   - api-gateway-ingress.yaml
   - cors-plugin.yaml
+  - cluster-issuer.yaml
 
 images:
   - name: spContaineRegistry.azurecr.io/tweet-service

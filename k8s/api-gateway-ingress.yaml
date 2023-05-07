@@ -6,7 +6,12 @@ metadata:
     kubernetes.io/ingress.class: "kong"
     konghq.com/strip-path: "true"
     konghq.com/plugins: cors
+    cert-manager.io/cluster-issuer: "letsencrypt"
 spec:
+  tls:
+    - hosts:
+        - api.blinddateg3.xyz
+      secretName: blinddateg3-api-tls
   rules:
     - host: api.blinddateg3.xyz
     - http:
