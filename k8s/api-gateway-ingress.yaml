@@ -8,6 +8,7 @@ metadata:
     konghq.com/plugins: cors
 spec:
   rules:
+    - host: blinddateg3.xyz
     - http:
         paths:
           - path: /tweet
