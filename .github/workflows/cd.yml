@@ -1,4 +1,4 @@
-name: Publish to ACR
+name: CD
 
 on:
   push:
@@ -37,11 +37,19 @@ jobs:
             docker push ${{ env.ACR_NAME }}.azurecr.io/$image:${{ env.COMMIT_HASH }}
           done
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: publish
+    env:
+      COMMIT_HASH: ${{ github.sha }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Deploy to AKS
         working-directory: k8s
         env:
           KUBECONFIG_FILE: kubeconfig.yaml
-          COMMIT_HASH: ${{ github.sha }}
         run: |
           echo "${{ secrets.KUBECONFIG }}" > ${{ env.KUBECONFIG_FILE }}
           export KUBECONFIG=${{ env.KUBECONFIG_FILE }}

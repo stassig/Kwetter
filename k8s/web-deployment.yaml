@@ -19,9 +19,10 @@ spec:
         - name: acr-credentials
       containers:
         - image: spContaineRegistry.azurecr.io/web
+          imagePullPolicy: IfNotPresent
           name: web-service
           ports:
-            - containerPort: 3002
+            - containerPort: 3000
           resources:
             requests:
               cpu: 100m
