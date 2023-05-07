@@ -10,4 +10,4 @@ server.listen(port, () => {
   console.log(`api running on ${port}`);
 });
 
-server.use("/tweet", tweetRouter());
+server.use("/", tweetRouter());

@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web-service-deployment
+  name: web-deployment
   labels:
-    app: web-service
+    app: web
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: web-service
+      app: web
   template:
     metadata:
       labels:
         io.kompose.network/app-network: "true"
-        app: web-service
+        app: web
     spec:
       imagePullSecrets:
         - name: acr-credentials
       containers:
         - image: spContaineRegistry.azurecr.io/web
           imagePullPolicy: IfNotPresent
-          name: web-service
+          name: web
           ports:
             - containerPort: 3000
           resources:
@@ -45,4 +45,4 @@ spec:
       port: 3000
       targetPort: 3000
   selector:
-    app: web-service
+    app: web
