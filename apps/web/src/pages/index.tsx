@@ -36,7 +36,8 @@ export default function Web() {
 
   const handleClick = async () => {
     const randomIndex = Math.floor(Math.random() * data.length);
-    const URL = process.env.NEXT_PUBLIC_TWEET_SERVICE_URL;
+    const URL =
+      process.env.NEXT_PUBLIC_TWEET_SERVICE_URL || "http://localhost:3001";
     console.log("URL: " + URL);
     try {
       const response = await fetch(URL + "/tweet", {
