@@ -39,6 +39,7 @@ export default function Web() {
     const URL =
       process.env.NEXT_PUBLIC_TWEET_SERVICE_URL || "http://localhost:3001";
     console.log("URL: " + URL);
+
     try {
       const response = await fetch(URL + "/tweet", {
         method: "POST", // Specify the request method
