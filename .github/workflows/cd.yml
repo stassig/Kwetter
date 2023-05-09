@@ -32,10 +32,8 @@ jobs:
 
       - name: Push Docker images to ACR
         run: |
-          for image in $(docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} config --services); do
-            docker tag $image ${{ env.ACR_NAME }}.azurecr.io/$image:${{ env.COMMIT_HASH }}
-            docker push ${{ env.ACR_NAME }}.azurecr.io/$image:${{ env.COMMIT_HASH }}
-          done
+          docker tag tweet-service:latest ${{ env.ACR_NAME }}.azurecr.io/tweet-service:${{ env.COMMIT_HASH }}
+          docker push ${{ env.ACR_NAME }}.azurecr.io/tweet-service:${{ env.COMMIT_HASH }}
 
   deploy:
     runs-on: ubuntu-latest
