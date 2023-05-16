@@ -23,3 +23,10 @@ spec:
                 name: tweet-service
                 port:
                   number: 3001
+          - path: /user
+            pathType: Prefix
+            backend:
+              service:
+                name: user-service
+                port:
+                  number: 3002
