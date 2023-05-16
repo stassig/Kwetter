@@ -1,20 +1,14 @@
 // Description: Tweet Data Access Layer
-
-import { PrismaClient } from "database";
-const prisma = new PrismaClient();
+import { Tweet } from "../models/tweet";
 
 export async function GetTweets() {
-  const tweets = await prisma.tweet.findMany();
+  const tweets = await Tweet.find();
   return tweets;
 }
 
 export async function CreateTweet(data: any) {
-  const tweet = await prisma.tweet
-    .create({
-      data: data,
-    })
-    .catch(() => {
-      return null;
-    });
+  const tweet = await Tweet.create(data).catch((error) => {
+    return null;
+  });
   return tweet;
 }

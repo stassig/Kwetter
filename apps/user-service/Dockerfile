@@ -19,13 +19,6 @@ COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/yarn.lock ./yarn.lock
 RUN yarn install
 
-# Install Prisma CLI
-RUN yarn global add prisma
-
-# Generate Prisma Client
-COPY apps/user-service/prisma ./prisma/
-RUN prisma generate
-
 # Build the project and its dependencies
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json

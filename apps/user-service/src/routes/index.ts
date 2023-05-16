@@ -18,7 +18,7 @@ export const userRouter = () => {
   router.post("/", async (req, res) => {
     const user = await service.CreateUser(req.body);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "Error creating a user" });
     }
     return res.json(user);
   });

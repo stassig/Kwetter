@@ -1,5 +1,6 @@
 // Description: Server Instance & Configuration
-require("dotenv").config({ path: "../../.env.local" });
+
+// require("dotenv").config({ path: "../../.env.local" });
 
 import { json, urlencoded } from "body-parser";
 import express from "express";
