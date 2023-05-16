@@ -7,10 +7,14 @@ import dotenv from "dotenv";
 
 dotenv.config({ path: "../../.env.local" });
 
-const port = 3001;
+const port = 3001; // put the ports as env variables as well
+
+// !TO DO: Fix env variables to work with docker
 
 // MongoDB connection string
-const mongoURI = process.env.DB_URL_TWEET;
+const mongoURI =
+  process.env.DB_URL_TWEET ||
+  "mongodb+srv://stassig:LLy9oetA2323VOFY@kwetterdb.dv7mwqw.mongodb.net/Users";
 
 if (!mongoURI) {
   throw new Error("Please set MONGO_URI in your .env file");

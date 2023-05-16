@@ -37,11 +37,13 @@ export default function Web() {
   const handleClick = async () => {
     const randomIndex = Math.floor(Math.random() * data.length);
     const URL =
-      process.env.NEXT_PUBLIC_TWEET_SERVICE_URL || "http://localhost:3001";
+      process.env.NEXT_PUBLIC_TWEET_SERVICE_URL ||
+      "http://localhost:8080/tweet";
+
     console.log("URL: " + URL);
 
     try {
-      const response = await fetch(URL + "/tweet", {
+      const response = await fetch(URL, {
         method: "POST", // Specify the request method
         headers: {
           "Content-Type": "application/json", // Set the content type of the request body

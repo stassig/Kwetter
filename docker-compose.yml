@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/web/Dockerfile
-    image: web:latest
+    image: individual-web:latest
     restart: always
     ports:
       - 3000:3000
@@ -18,22 +18,37 @@ services:
     build:
       context: .
       dockerfile: ./apps/tweet-service/Dockerfile
-    image: tweet-service:latest
+    image: individual-tweet-service:latest
     restart: always
     ports:
       - 3001:3001
     networks:
       - app_network
+    depends_on:
+      - krakend
 
   user-service:
     container_name: user-service
     build:
       context: .
       dockerfile: ./apps/user-service/Dockerfile
-    image: user-service:latest
+    image: individual-user-service:latest
     restart: always
     ports:
       - 3002:3002
+    networks:
+      - app_network
+    depends_on:
+      - krakend
+
+  krakend:
+    container_name: krakend
+    build:
+      context: ./krakend
+      dockerfile: ./Dockerfile
+    image: individual-krakend:latest
+    ports:
+      - 8080:8080
     networks:
       - app_network
 

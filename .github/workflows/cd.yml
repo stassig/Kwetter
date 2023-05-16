@@ -56,17 +56,14 @@ jobs:
       # Tags and pushes Docker images to ACR
       - name: Push Docker images to ACR
         run: |
-          docker tag upload-service:latest ${{ env.ACR_NAME }}.azurecr.io/upload-service:${{ env.COMMIT_HASH }}
-          docker push ${{ env.ACR_NAME }}.azurecr.io/upload-service:${{ env.COMMIT_HASH }}
+          docker tag individual-krakend:latest ${{ env.ACR_NAME }}.azurecr.io/krakend:${{ env.COMMIT_HASH }}
+          docker push ${{ env.ACR_NAME }}.azurecr.io/krakend:${{ env.COMMIT_HASH }}
 
-          docker tag user-service:latest ${{ env.ACR_NAME }}.azurecr.io/user-service:${{ env.COMMIT_HASH }}
+          docker tag individual-user-service:latest ${{ env.ACR_NAME }}.azurecr.io/user-service:${{ env.COMMIT_HASH }}
           docker push ${{ env.ACR_NAME }}.azurecr.io/user-service:${{ env.COMMIT_HASH }}
 
-          docker tag post-service:latest ${{ env.ACR_NAME }}.azurecr.io/post-service:${{ env.COMMIT_HASH }}
+          docker tag individual-tweet-service:latest ${{ env.ACR_NAME }}.azurecr.io/tweet-service:${{ env.COMMIT_HASH }}
           docker push ${{ env.ACR_NAME }}.azurecr.io/post-service:${{ env.COMMIT_HASH }}
-
-          docker tag comment-service:latest ${{ env.ACR_NAME }}.azurecr.io/comment-service:${{ env.COMMIT_HASH }}
-          docker push ${{ env.ACR_NAME }}.azurecr.io/comment-service:${{ env.COMMIT_HASH }}
 
   # Second job to deploy the Docker images to Azure Kubernetes Service (AKS)
   deploy:

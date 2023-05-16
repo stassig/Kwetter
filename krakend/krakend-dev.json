@@ -1,0 +1,62 @@
+{
+  "version": 3,
+  "extra_config": {
+    "security/cors": {
+      "allow_origins": ["*"],
+      "allow_methods": ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"],
+      "expose_headers": ["Content-Length", "Content-Type"],
+      "allow_headers": ["Accept-Language"],
+      "max_age": "12h",
+      "allow_credentials": false,
+      "debug": false
+    }
+  },
+  "endpoints": [
+    {
+      "endpoint": "/tweet",
+      "method": "GET",
+      "backend": [
+        {
+          "host": "http://localhost:3001",
+          "method": "GET",
+          "url_pattern": "/",
+          "is_collection": true
+        }
+      ]
+    },
+    {
+      "endpoint": "/tweet",
+      "method": "POST",
+      "backend": [
+        {
+          "host": "http://localhost:3001",
+          "method": "POST",
+          "url_pattern": "/"
+        }
+      ]
+    },
+    {
+      "endpoint": "/user",
+      "method": "GET",
+      "backend": [
+        {
+          "host": "http://localhost:3002",
+          "method": "GET",
+          "url_pattern": "/",
+          "is_collection": true
+        }
+      ]
+    },
+    {
+      "endpoint": "/user",
+      "method": "POST",
+      "backend": [
+        {
+          "host": "http://localhost:3002",
+          "method": "POST",
+          "url_pattern": "/"
+        }
+      ]
+    }
+  ]
+}
