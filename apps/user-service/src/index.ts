@@ -15,7 +15,7 @@ const mongoURI =
   "mongodb+srv://stassig:LLy9oetA2323VOFY@kwetterdb.dv7mwqw.mongodb.net/Users";
 
 if (!mongoURI) {
-  throw new Error("Please set MONGO_URI in your .env file");
+  throw new Error("Please set DB_URL_USER in your .env file");
 }
 
 // Connect to MongoDB
