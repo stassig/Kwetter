@@ -5,7 +5,7 @@
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
-      "env": ["NEXT_PUBLIC_TWEET_SERVICE_URL"]
+      "env": ["NEXT_PUBLIC_TWEET_SERVICE_URL", "NEXT_PUBLIC_USER_SERVICE_URL"]
     },
     "test": {
       "dependsOn": ["^build"]
