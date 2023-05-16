@@ -10,10 +10,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - api.blinddateg3.xyz
-      secretName: blinddateg3-api-tls
+        - individual.blinddateg3.xyz
+      secretName: blinddateg3-individual-tls
   rules:
-    - host: api.blinddateg3.xyz
+    - host: individual.blinddateg3.xyz
     - http:
         paths:
           - path: /tweet
