@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     # Environmental variables used in the job
     env:
-      ACR_NAME: g3Registry
+      ACR_NAME: spContaineRegistry
       ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
       ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
       DOCKER_COMPOSE_FILE: docker-compose.yml
