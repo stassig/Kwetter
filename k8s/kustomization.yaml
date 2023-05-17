@@ -3,7 +3,7 @@ kind: Kustomization
 
 resources:
   - tweet-service-deployment.yaml
-  - user-service-service.yaml
+  - user-service-deployment.yaml
   - krakend-deployment.yaml
   - api-gateway-ingress.yaml
   - cluster-issuer.yaml
