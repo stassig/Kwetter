@@ -18,7 +18,7 @@ spec:
       imagePullSecrets:
         - name: acr-credentials
       containers:
-        - image: spContaineRegistry.azurecr.io/tweet-service
+        - image: individual-tweet-service
           imagePullPolicy: IfNotPresent
           name: tweet-service
           ports:
