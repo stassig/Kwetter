@@ -3,12 +3,15 @@ kind: Kustomization
 
 resources:
   - tweet-service-deployment.yaml
+  - kratend-deployment.yaml
   - api-gateway-ingress.yaml
-  - cors-plugin.yaml
   - cluster-issuer.yaml
   - secrets.yaml
 
 images:
   - name: spContaineRegistry.azurecr.io/tweet-service
     newName: spContaineRegistry.azurecr.io/tweet-service
+    newTag: CICD_PLACEHOLDER
+  - name: spContaineRegistry.azurecr.io/krakend
+    newName: spContaineRegistry.azurecr.io/krakend
     newTag: CICD_PLACEHOLDER
