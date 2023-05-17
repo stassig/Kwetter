@@ -18,7 +18,7 @@ spec:
       imagePullSecrets:
         - name: acr-credentials
       containers:
-        - image: spContaineRegistry.azurecr.io/user-service
+        - image: user-service
           imagePullPolicy: IfNotPresent
           name: user-service
           ports:
