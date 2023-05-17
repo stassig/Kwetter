@@ -5,7 +5,13 @@
       "allow_origins": ["*"],
       "allow_methods": ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"],
       "expose_headers": ["Content-Length", "Content-Type"],
-      "allow_headers": ["Accept-Language"],
+      "allow_headers": [
+        "Accept-Language",
+        "Content-Type",
+        "Authorization",
+        "Accept",
+        "Origin"
+      ],
       "max_age": "12h",
       "allow_credentials": false,
       "debug": false
