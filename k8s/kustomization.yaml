@@ -10,12 +10,12 @@ resources:
   - secrets.yaml
 
 images:
-  - name: individual-tweet-service
+  - name: spContaineRegistry.azurecr.io/tweet-service
     newName: spContaineRegistry.azurecr.io/tweet-service
     newTag: CICD_PLACEHOLDER
-  - name: individual-user-service
+  - name: spContaineRegistry.azurecr.io/user-service
     newName: spContaineRegistry.azurecr.io/user-service
     newTag: CICD_PLACEHOLDER
-  - name: individual-krakend
+  - name: spContaineRegistry.azurecr.io/krakend
     newName: spContaineRegistry.azurecr.io/krakend
     newTag: CICD_PLACEHOLDER
