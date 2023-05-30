@@ -1,24 +1,25 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: api-gateway-ingress
+  name: kuma
+  namespace: kuma
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     cert-manager.io/cluster-issuer: "letsencrypt"
 spec:
   tls:
     - hosts:
-        - api.kwetter.xyz
-      secretName: kwetter-api-tls
+        - uptime-kuma.kwetter.xyz
+      secretName: kwetter-uptime-kuma-tls
   rules:
-    - host: api.kwetter.xyz
+    - host: uptime-kuma.kwetter.xyz
       http:
         paths:
           - pathType: Prefix
             path: "/"
             backend:
               service:
-                name: krakend-service
+                name: uptime-kuma-service
                 port:
-                  number: 8000
+                  number: 3010

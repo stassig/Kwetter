@@ -23,5 +23,9 @@ export const userRouter = () => {
     return res.json(user);
   });
 
+  router.get("/crash", (req, res) => {
+    process.exit(1);
+  });
+
   return router;
 };
