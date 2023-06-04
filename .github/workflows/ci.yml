@@ -40,4 +40,4 @@ jobs:
         uses: zaproxy/action-baseline@v0.4.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          target: 'https://your.website.com'
+          target: 'https://individual-project-web.vercel.app'
