@@ -21,7 +21,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 4,
+  "id": 3,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -119,15 +119,15 @@
         "description": "",
         "meta": {
           "connectedDashboards": 1,
-          "created": "2023-05-30T16:12:39Z",
+          "created": "2023-06-07T10:56:44Z",
           "createdBy": {
             "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
             "id": 1,
             "name": "admin"
           },
-          "folderName": "Library Panels",
-          "folderUid": "Ob8GoQw4z",
-          "updated": "2023-05-30T16:12:39Z",
+          "folderName": "General",
+          "folderUid": "",
+          "updated": "2023-06-07T10:56:44Z",
           "updatedBy": {
             "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
             "id": 1,
@@ -281,7 +281,7 @@
             "type": "loki",
             "uid": "P8E80F9AEF21F6940"
           },
-          "expr": "sum﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿(﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿count_over_time﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿(﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿{﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿container﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿=﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿\"tweet-service\"﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿}﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿ |= ﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿\"api running on ﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿3001﻿﻿\" ﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿[﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿5m﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿]﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿)﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿)﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿ by ﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿(﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿container﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿)﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿",
+          "expr": "sum(count_over_time({container=\"tweet-service\"} |= \"api running on 3001\" [5m])) by (container)",
           "refId": "A"
         }
       ],
@@ -348,6 +348,6 @@
   "timezone": "",
   "title": "Crash/Restart Metrics & Logging",
   "uid": "EEYWoQQ4z",
-  "version": 17,
+  "version": 7,
   "weekStart": ""
 }
