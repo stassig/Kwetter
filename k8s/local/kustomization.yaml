@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - tweet-service-deployment.yaml
+  - user-service-deployment.yaml
+  - krakend-deployment.yaml
+  - api-gateway-ingress.yaml
+  - secrets.yaml
+
+images:
+  - name: tweet-service
+    newName: spContaineRegistry.azurecr.io/tweet-service
+    newTag: 2edee673d5edf1db1bd6a7dd2b1caaecaf97db52
+  - name: user-service
+    newName: spContaineRegistry.azurecr.io/user-service
+    newTag: 2edee673d5edf1db1bd6a7dd2b1caaecaf97db52
+  - name: krakend
+    newName: spContaineRegistry.azurecr.io/krakend
+    newTag: 2edee673d5edf1db1bd6a7dd2b1caaecaf97db52
+
+
