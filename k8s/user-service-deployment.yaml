@@ -19,7 +19,7 @@ spec:
         - name: acr-credentials
       containers:
         - image: user-service
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           name: user-service
           ports:
             - containerPort: 3002

@@ -17,6 +17,7 @@ spec:
       containers:
         - name: krakend
           image: krakend
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           command: ["/usr/bin/krakend"]
