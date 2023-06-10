@@ -11,6 +11,7 @@ export const options = {
   ],
 };
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default function () {
   const res = http.get('http://localhost:8080/tweet');
   sleep(1);
