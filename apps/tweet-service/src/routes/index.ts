@@ -7,12 +7,13 @@ export const tweetRouter = () => {
   const router = Router();
 
   router.get("/", async (req, res) => {
-    const tweets = await service.GetTweets();
-    if (tweets) {
-      return res.json(tweets);
-    } else {
-      return res.status(404).json({ message: "No tweets found" });
-    }
+    return res.json([]);
+//     const tweets = await service.GetTweets();
+//     if (tweets) {
+//       return res.json(tweets);
+//     } else {
+//       return res.status(404).json({ message: "No tweets found" });
+//     }
   });
 
   router.post("/", async (req, res) => {
