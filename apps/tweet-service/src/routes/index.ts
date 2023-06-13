@@ -7,8 +7,8 @@ export const tweetRouter = () => {
   const router = Router();
 
   router.get("/", async (req, res) => {
-    res.set("Cache-Control", "public ,max-age=10, s-maxage=30")
-    return res.json([]);
+    res.set("Cache-Control", "public ,max-age=1000, s-maxage=1000")
+    return res.json([{ text: "test" }]);
 //     const tweets = await service.GetTweets();
 //     if (tweets) {
 //       return res.json(tweets);
