@@ -58,7 +58,7 @@ spec:
     kind: Deployment
     name: krakend-deployment
   minReplicas: 1
-  maxReplicas: 10
+  maxReplicas: 40
   metrics:
     - type: Resource
       resource:
