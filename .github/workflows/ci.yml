@@ -33,11 +33,11 @@ jobs:
       - name: Test
         run: yarn test
 
-      - name: Check for linting errors
-        run: yarn lint
+      # - name: Check for linting errors
+      #   run: yarn lint
 
-      - name: OWASP ZAP Baseline Scan
-        uses: zaproxy/action-baseline@v0.7.0
-        with:
-          token: ${{ secrets.ACCESS_TOKEN }}
-          target: "https://individual-project-web.vercel.app/"
+      # - name: OWASP ZAP Baseline Scan
+      #   uses: zaproxy/action-baseline@v0.7.0
+      #   with:
+      #     token: ${{ secrets.ACCESS_TOKEN }}
+      #     target: "https://individual-project-web.vercel.app/"

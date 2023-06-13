@@ -7,14 +7,15 @@ export const tweetRouter = () => {
   const router = Router();
 
   router.get("/", async (req, res) => {
-    res.set("Cache-Control", "public ,max-age=1000, s-maxage=1000")
-    return res.json([{ text: "test" }]);
-//     const tweets = await service.GetTweets();
-//     if (tweets) {
-//       return res.json(tweets);
-//     } else {
-//       return res.status(404).json({ message: "No tweets found" });
-//     }
+    const tweets = await service.GetTweets();
+    if (tweets) {
+      return res.json(tweets);
+    } else {
+      return res.status(404).json({ message: "No tweets found" });
+    }
+
+    // res.set("Cache-Control", "public ,max-age=1000, s-maxage=1000")
+    // return res.json([{ text: "test" }]);
   });
 
   router.post("/", async (req, res) => {
