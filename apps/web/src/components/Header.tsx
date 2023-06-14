@@ -10,11 +10,10 @@ import {
   rem,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import exp from "constants";
-import Logo from "../../public/Logo_of_Twitter.png";
 import { Image } from "@mantine/core";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import Link from "next/link";
 
 const HEADER_HEIGHT = rem(60);
 
@@ -134,8 +133,9 @@ export function HeaderResponsive({ links = [] }: HeaderResponsiveProps) {
   return (
     <Header height={HEADER_HEIGHT} mb={10} className={classes.root}>
       <Container className={classes.header}>
-        <Image src="/Kwetter_Logo.png" alt="Logo" width="160" height="50" />
-
+        <Link href="/home">
+          <Image src="/Kwetter_Logo.png" alt="Logo" width="160" height="50" />
+        </Link>
         <Group spacing={5} className={classes.links}>
           {items}
         </Group>

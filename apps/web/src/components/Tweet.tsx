@@ -43,7 +43,16 @@ const Tweet = ({ tweet }: { tweet: TweetProps }) => {
           <Text size="sm" color="dimmed">
             {tweet.datePosted}
           </Text>
-          <Text>{tweet.message}</Text>
+          <div
+            style={{
+              overflowWrap: "break-word",
+              wordWrap: "break-word",
+              wordBreak: "break-word",
+            }}
+          >
+            <Text>{tweet.message}</Text>
+          </div>
+
           <div style={{ display: "flex", alignItems: "center" }}>
             <Button variant="link" onClick={handleLike}>
               {liked ? <AiFillHeart color="red" /> : <AiOutlineHeart />}
