@@ -21,6 +21,13 @@
     {
       "endpoint": "/tweet",
       "method": "GET",
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "audience": ["https://dev-p1zuevhv7lzho4wp.eu.auth0.com/api/v2/"],
+          "jwk_url": "https://dev-p1zuevhv7lzho4wp.eu.auth0.com/.well-known/jwks.json"
+        }
+      },
       "backend": [
         {
           "host": "http://tweet-service:3001",
