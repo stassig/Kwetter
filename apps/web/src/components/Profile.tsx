@@ -1,52 +1,98 @@
-import { useUser } from "@auth0/nextjs-auth0/client";
-import { useEffect, useState } from "react";
-import { fetchTweets } from "../api/tweets";
-import { useRouter } from "next/router";
-import { Button } from "@mantine/core";
-import { HeaderResponsive } from "../components/Header";
+import { useState } from "react";
+import { Paper, Text, Avatar, Button, Col, Grid } from "@mantine/core";
+import { AiOutlineUser, AiOutlineUserAdd } from "react-icons/ai";
+import Tweet from "./Tweet";
 
-const Profile = () => {
-  const { user, error, isLoading } = useUser();
-  const [tweets, setTweets] = useState(null);
-  const router = useRouter();
+interface UserData {
+  username: string;
+  userProfilePic: string;
+  following: number;
+  followers: number;
+  tweets: number;
+  tweetData: Array<any>;
+  followingData: Array<any>;
+}
 
-  useEffect(() => {
-    if (!user && !isLoading && router.pathname !== "/") {
-      router.push("/");
-    } else if (user) {
-      fetchTweets()
-        .then((tweets) => {
-          setTweets(tweets);
-        })
-        .catch(console.error);
-    }
-  }, [user, isLoading, router]);
+const Profile = ({ user }: { user: UserData }) => {
+  const [isFollowing, setFollowing] = useState<boolean>(false);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
+  const handleFollow = () => {
+    setFollowing(!isFollowing);
+    // API call to follow/unfollow the user
+  };
 
-  const links = [
-    {
-      link: "/home",
-      label: "Home",
-    },
-    {
-      link: "/profile",
-      label: "Profile",
-    },
-    {
-      link: "/api/auth/logout",
-      label: "Logout",
-    },
-  ];
+  const tweetList = user.tweetData.map((tweet, index) => (
+    <Col span={12} key={index}>
+      <Tweet tweet={{ ...tweet, showUnfollow: false }} />
+    </Col>
+  ));
 
-  return user ? (
-    <div>
-      <HeaderResponsive links={links} />
-      <h2>{user.name}</h2>
-      <p>{user.email}</p>
-    </div>
-  ) : null;
+  const usersList = user.followingData.map((user, index) => (
+    <Col span={12} style={{ marginBottom: 10 }} key={index}>
+      <Paper
+        style={{ padding: "10px", display: "flex", alignItems: "center" }}
+        shadow="xs"
+      >
+        <Avatar
+          src={user.userProfilePic}
+          size={40}
+          style={{ marginRight: 10 }}
+        />
+        <Text>{user.username}</Text>
+        <Button
+          rightIcon={isFollowing ? <AiOutlineUser /> : <AiOutlineUserAdd />}
+          color={isFollowing ? "blue" : "gray"}
+          onClick={handleFollow}
+          style={{ marginLeft: "auto" }}
+        >
+          {isFollowing ? "Unfollow" : "Follow"}
+        </Button>
+      </Paper>
+    </Col>
+  ));
+
+  return (
+    <Grid gutter="md">
+      <Col span={12} md={8}>
+        <Paper
+          style={{
+            padding: "10px",
+            marginBottom: "15px",
+            display: "flex",
+            background: "#f5f5f5", // Set light grey background color
+          }}
+        >
+          <Avatar
+            src={user.userProfilePic}
+            size={120}
+            style={{ flexShrink: 0, marginRight: 20 }}
+          />
+          <div>
+            <Text size="lg" weight={700}>
+              {user.username}
+            </Text>
+            <Text size="sm">Following: {user.following}</Text>
+            <Text size="sm">Followers: {user.followers}</Text>
+            <Text size="sm">Tweets: {user.tweets}</Text>
+          </div>
+        </Paper>
+        <Paper style={{ padding: "10px" }}>
+          <Text size="lg" weight={700} style={{ marginBottom: 10 }}>
+            Kwetter History
+          </Text>
+          {tweetList}
+        </Paper>
+      </Col>
+      <Col span={12} md={4}>
+        <Paper style={{ padding: "10px" }}>
+          <Text size="lg" weight={700} style={{ marginBottom: 10 }}>
+            Users
+          </Text>
+          {usersList}
+        </Paper>
+      </Col>
+    </Grid>
+  );
 };
 
 export default Profile;

@@ -16,42 +16,41 @@ interface TweetData {
 
 const initialTweets: TweetData[] = [
   {
-    userProfilePic: "/profile1.jpg",
+    userProfilePic: "https://randomuser.me/api/portraits/men/81.jpg",
     datePosted: format(
       new Date("2023-06-12T12:00:00"),
       "MMMM dd, yyyy, h:mm a"
     ),
-    message: "Hello world! This is my first tweet!",
+    message: "Hello world! This is my first kwetter message!",
     numLikes: 10,
-    username: "User1",
+    username: "Mike Minor",
     liked: false,
   },
   {
-    userProfilePic: "/profile2.jpg",
+    userProfilePic: "https://randomuser.me/api/portraits/men/82.jpg",
     datePosted: format(
       new Date("2023-06-11T08:30:00"),
       "MMMM dd, yyyy, h:mm a"
     ),
     message: "Just having my morning coffee... ☕",
     numLikes: 20,
-    username: "User2",
+    username: "Samuel Sampson",
     liked: false,
   },
   {
-    userProfilePic: "/profile3.jpg",
+    userProfilePic: "https://randomuser.me/api/portraits/men/80.jpg",
     datePosted: format(
       new Date("2023-06-10T17:45:00"),
       "MMMM dd, yyyy, h:mm a"
     ),
     message: "Can't wait for the weekend! 🎉",
     numLikes: 30,
-    username: "User3",
+    username: "Richard Roe",
     liked: false,
   },
 ];
 
 const Timeline = () => {
-  // Define the initial state for tweets
   const [tweets, setTweets] = useState<TweetData[]>(initialTweets);
 
   const handleUnfollow = (username: string) => {
@@ -61,7 +60,6 @@ const Timeline = () => {
 
   const handleLike = async (tweetId: number) => {
     console.log("Liked!");
-    // Handle the like action here, e.g., make an API call to your backend
     setTweets((prevTweets) =>
       prevTweets.map((tweet, index) => {
         if (index === tweetId) {
@@ -76,7 +74,7 @@ const Timeline = () => {
   const handleCreate = (content: string) => {
     const newTweet = {
       userProfilePic: "/profile1.jpg",
-      datePosted: format(new Date(), "MMMM dd, yyyy, h:mm a"), // Using current date and time
+      datePosted: format(new Date(), "MMMM dd, yyyy, h:mm a"),
       message: content,
       numLikes: 0,
       username: "User1",
@@ -88,8 +86,8 @@ const Timeline = () => {
   return (
     <Container size="sm">
       <CreateTweet
-        profileImage="/profile1.jpg"
-        username="User1"
+        profileImage="https://randomuser.me/api/portraits/men/75.jpg"
+        username="John Doe"
         onCreate={handleCreate}
       />
       {tweets.map((tweet, index) => (
@@ -99,6 +97,7 @@ const Timeline = () => {
             ...tweet,
             onUnfollow: () => handleUnfollow(tweet.username),
             onLike: () => handleLike(index),
+            showUnfollow: true,
           }}
         />
       ))}

@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { Paper, Text, Avatar, Badge, Button } from "@mantine/core";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import {
+  AiOutlineHeart,
+  AiFillHeart,
+  AiOutlineUser,
+  AiOutlineUserAdd,
+} from "react-icons/ai";
 
 interface TweetProps {
   userProfilePic: string;
@@ -11,11 +16,18 @@ interface TweetProps {
   onUnfollow: () => void;
   liked: boolean;
   onLike: () => void;
+  showUnfollow: boolean;
 }
 
 const Tweet = ({ tweet }: { tweet: TweetProps }) => {
   const [likes, setLikes] = useState(tweet.numLikes);
   const [liked, setLiked] = useState(tweet.liked);
+  const [isFollowing, setFollowing] = useState<boolean>(false);
+
+  const handleFollow = () => {
+    setFollowing(!isFollowing);
+    // API call to follow/unfollow the user
+  };
 
   const handleLike = () => {
     tweet.onLike();
@@ -60,9 +72,16 @@ const Tweet = ({ tweet }: { tweet: TweetProps }) => {
             <Badge color="pink">{likes}</Badge>
           </div>
         </div>
-        <Button color="blue" onClick={tweet.onUnfollow}>
-          Unfollow
-        </Button>
+        {tweet.showUnfollow && (
+          <Button
+            rightIcon={isFollowing ? <AiOutlineUser /> : <AiOutlineUserAdd />}
+            color={isFollowing ? "blue" : "gray"}
+            onClick={handleFollow}
+            style={{ marginLeft: "auto" }}
+          >
+            {isFollowing ? "Unfollow" : "Follow"}
+          </Button>
+        )}
       </div>
     </Paper>
   );

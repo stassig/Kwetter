@@ -7,20 +7,20 @@ import Timeline from "../../components/Timeline";
 
 const Home = () => {
   const { user, error, isLoading } = useUser();
-  const [tweets, setTweets] = useState(null);
-  const router = useRouter();
+  // const [tweets, setTweets] = useState(null);
+  // const router = useRouter();
 
-  useEffect(() => {
-    if (!user && !isLoading && router.pathname !== "/") {
-      router.push("/");
-    } else if (user) {
-      fetchTweets()
-        .then((tweets) => {
-          setTweets(tweets);
-        })
-        .catch(console.error);
-    }
-  }, [user, isLoading, router]);
+  // useEffect(() => {
+  //   if (!user && !isLoading && router.pathname !== "/") {
+  //     router.push("/");
+  //   } else if (user) {
+  //     fetchTweets()
+  //       .then((tweets) => {
+  //         setTweets(tweets);
+  //       })
+  //       .catch(console.error);
+  //   }
+  // }, [user, isLoading, router]);
 
   const links = [
     {
