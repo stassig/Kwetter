@@ -1,7 +1,6 @@
-import Header from "../../components/Header";
 import Profile from "../../components/Profile";
 
-const Home = () => {
+const ProfileI = () => {
   return (
     <>
       <Profile />
@@ -9,4 +8,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default ProfileI;

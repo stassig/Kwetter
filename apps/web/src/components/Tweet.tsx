@@ -10,21 +10,21 @@ interface TweetProps {
   username: string;
   onUnfollow: () => void;
   liked: boolean;
-  onLike: () => Promise<void>;
+  onLike: () => void;
 }
 
 const Tweet = ({ tweet }: { tweet: TweetProps }) => {
   const [likes, setLikes] = useState(tweet.numLikes);
   const [liked, setLiked] = useState(tweet.liked);
 
-  const handleLike = async () => {
-    try {
-      await tweet.onLike();
+  const handleLike = () => {
+    tweet.onLike();
+    if (!liked) {
       setLikes(likes + 1);
-      setLiked(true);
-    } catch (error) {
-      console.error("Like operation failed:", error);
+    } else {
+      setLikes(likes - 1);
     }
+    setLiked(!liked);
   };
 
   return (
