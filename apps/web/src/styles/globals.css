@@ -1,1 +1,4 @@
 /* Global Styles */
+body {
+  overflow-x: hidden;
+}
