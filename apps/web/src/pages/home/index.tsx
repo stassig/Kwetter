@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { fetchTweets } from "../../api/tweets";
 import { useRouter } from "next/router";
 import { HeaderResponsive } from "../../components/Header";
+import Timeline from "../../components/Timeline";
 
 const Home = () => {
   const { user, error, isLoading } = useUser();
@@ -41,8 +42,7 @@ const Home = () => {
   return user ? (
     <div>
       <HeaderResponsive links={links} />
-      <h1>Home</h1>
-      {tweets && <p>Tweets: {JSON.stringify(tweets)}</p>}
+      <Timeline />
     </div>
   ) : null;
 };
