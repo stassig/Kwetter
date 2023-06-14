@@ -1,14 +1,50 @@
-import Header from "../../components/Header";
-import Profile from "../../components/Profile";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { useEffect, useState } from "react";
+import { fetchTweets } from "../../api/tweets";
+import { useRouter } from "next/router";
+import { HeaderResponsive } from "../../components/Header";
 
 const Home = () => {
-  return (
-    <>
-      <Header />
+  const { user, error, isLoading } = useUser();
+  const [tweets, setTweets] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user && !isLoading && router.pathname !== "/") {
+      router.push("/");
+    } else if (user) {
+      fetchTweets()
+        .then((tweets) => {
+          setTweets(tweets);
+        })
+        .catch(console.error);
+    }
+  }, [user, isLoading, router]);
+
+  const links = [
+    {
+      link: "/home",
+      label: "Home",
+    },
+    {
+      link: "/profile",
+      label: "Profile",
+    },
+    {
+      link: "/api/auth/logout",
+      label: "Logout",
+    },
+  ];
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
+  return user ? (
+    <div>
+      <HeaderResponsive links={links} />
       <h1>Home</h1>
-      <Profile />
-    </>
-  );
+      {tweets && <p>Tweets: {JSON.stringify(tweets)}</p>}
+    </div>
+  ) : null;
 };
 
 export default Home;
