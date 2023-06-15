@@ -41,5 +41,29 @@ export const userRouter = () => {
     return res.json(user);
   });
 
+  router.post("/:id/follow/:followUserId", async (req, res) => {
+    const user = await service.FollowUser(
+      req.params.id,
+      req.params.followUserId
+    );
+    if (user) {
+      return res.json(user);
+    } else {
+      return res.status(404).json({ message: "Error following user" });
+    }
+  });
+
+  router.post("/:id/unfollow/:unfollowUserId", async (req, res) => {
+    const user = await service.UnfollowUser(
+      req.params.id,
+      req.params.unfollowUserId
+    );
+    if (user) {
+      return res.json(user);
+    } else {
+      return res.status(404).json({ message: "Error unfollowing user" });
+    }
+  });
+
   return router;
 };

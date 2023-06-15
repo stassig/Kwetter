@@ -23,3 +23,13 @@ export async function GetUserById(id: string) {
   const user = await prisma.GetUserById(id);
   return user;
 }
+
+export async function FollowUser(userId: string, followUserId: string) {
+  const user = await prisma.FollowUser(userId, followUserId);
+  return user;
+}
+
+export async function UnfollowUser(userId: string, unfollowUserId: string) {
+  const user = await prisma.UnfollowUser(userId, unfollowUserId);
+  return user;
+}

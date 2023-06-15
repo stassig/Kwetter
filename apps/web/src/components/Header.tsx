@@ -96,11 +96,22 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-interface HeaderResponsiveProps {
-  links: { link: string; label: string }[];
-}
+const links = [
+  {
+    link: "/home",
+    label: "Home",
+  },
+  {
+    link: "/profile",
+    label: "Profile",
+  },
+  {
+    link: "/api/auth/logout",
+    label: "Logout",
+  },
+];
 
-export function HeaderResponsive({ links = [] }: HeaderResponsiveProps) {
+export function HeaderResponsive() {
   console.log("links", links);
 
   const [opened, { toggle, close }] = useDisclosure(false);

@@ -23,3 +23,21 @@ export async function GetUserById(id: string) {
   const user = await User.findById(id);
   return user;
 }
+
+export async function FollowUser(userId: string, followUserId: string) {
+  const user = await User.findByIdAndUpdate(
+    userId,
+    { $push: { following: followUserId } },
+    { new: true }
+  );
+  return user;
+}
+
+export async function UnfollowUser(userId: string, unfollowUserId: string) {
+  const user = await User.findByIdAndUpdate(
+    userId,
+    { $pull: { following: unfollowUserId } },
+    { new: true }
+  );
+  return user;
+}
