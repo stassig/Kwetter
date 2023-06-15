@@ -1,10 +1,11 @@
 import { User } from "../types/user";
+import { UserData } from "../types/user_data";
 
 const URL = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
 const GATEWAY_URL =
   process.env.NEXT_PUBLIC_GATEWAY_URL || "http://localhost:8080";
 
-export const fetchUsers = async (): Promise<User[]> => {
+export const fetchUsers = async (): Promise<UserData[]> => {
   const tokenResponse = await fetch(`${URL}/api/auth/token`);
   const tokenData = await tokenResponse.json();
 
@@ -16,7 +17,7 @@ export const fetchUsers = async (): Promise<User[]> => {
   });
 
   const users = await response.json();
-  return users;
+  return users.collection;
 };
 
 export const checkIfUserExists = async (username: string): Promise<boolean> => {
@@ -51,7 +52,7 @@ export const createUser = async (data: any): Promise<User> => {
   return user;
 };
 
-export const getUserById = async (id: string): Promise<User> => {
+export const getUserById = async (id: string): Promise<UserData> => {
   const tokenResponse = await fetch(`${URL}/api/auth/token`);
   const tokenData = await tokenResponse.json();
 

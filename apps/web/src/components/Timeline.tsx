@@ -22,7 +22,7 @@ const Timeline = ({ user }: { user: auth0_user }) => {
 
   const handleCreate = async (content: string) => {
     const newTweet = {
-      user_id: user.sub,
+      user_id: user.sub.split("|")[1],
       username: user.nickname,
       profile_image_url: user.picture,
       content: content,

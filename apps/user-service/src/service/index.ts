@@ -20,7 +20,7 @@ export async function GetUserByUsername(username: string) {
 }
 
 export async function GetUserById(id: string) {
-  const user = await prisma.GetUserById(id);
+  const user = await prisma.GetUserByUserId(id);
   return user;
 }
 

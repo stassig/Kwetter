@@ -9,6 +9,7 @@ import {
 import { format } from "date-fns";
 import { followUser, unfollowUser } from "../api/users";
 import { auth0_user } from "../types/auth0_user/auth0_user";
+import toastr from "toastr";
 
 interface TweetProps {
   profile_image_url: string;
@@ -17,9 +18,9 @@ interface TweetProps {
   likes_count: number;
   username: string;
   user_id: string;
-  onUnfollow: () => void;
+  onUnfollow?: () => void;
   liked: boolean;
-  onLike: () => void;
+  onLike?: () => void;
   showUnfollow: boolean;
 }
 
@@ -43,16 +44,16 @@ const TweetComponent = ({
         );
         if (response) {
           setFollowing(false);
-          // Perform any necessary UI updates
+          toastr.success("Unfollowed user");
         }
       } else {
         const response = await followUser(
-          tweet.user_id.split("|")[1],
-          user.sub.split("|")[1]
+          user.sub.split("|")[1],
+          tweet.user_id.split("|")[1]
         );
         if (response) {
           setFollowing(true);
-          // Perform any necessary UI updates
+          toastr.success("Followed user");
         }
       }
     } catch (error) {
@@ -62,7 +63,7 @@ const TweetComponent = ({
   };
 
   const handleLike = () => {
-    tweet.onLike();
+    if (tweet.onLike) tweet.onLike();
     if (!liked) {
       setLikes(likes + 1);
     } else {
@@ -107,7 +108,7 @@ const TweetComponent = ({
         {tweet.showUnfollow && (
           <Button
             rightIcon={isFollowing ? <AiOutlineUser /> : <AiOutlineUserAdd />}
-            color={isFollowing ? "blue" : "gray"}
+            color={isFollowing ? "gray" : "blue"}
             onClick={handleFollow}
             style={{ marginLeft: "auto" }}
           >

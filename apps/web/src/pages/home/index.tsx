@@ -1,5 +1,5 @@
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { HeaderResponsive } from "../../components/Header";
 import Timeline from "../../components/Timeline";
 import { checkIfUserExists, createUser } from "../../api/users";
@@ -8,13 +8,9 @@ import { auth0_user } from "../../types/auth0_user/auth0_user";
 const Home = () => {
   const { user, error, isLoading } = useUser();
 
-  console.log(user);
-
   useEffect(() => {
     const setupUser = async () => {
-      if (user && !user.isLoading && user.nickname) {
-        console.log(user);
-
+      if (user && !isLoading && user.nickname) {
         const userExists = await checkIfUserExists(user.nickname);
         if (!userExists && user.sub) {
           const newUser = {
@@ -27,8 +23,10 @@ const Home = () => {
       }
     };
 
-    setupUser();
-  }, [user]);
+    if (user) {
+      setupUser().catch((error) => {});
+    }
+  }, [user, isLoading]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;

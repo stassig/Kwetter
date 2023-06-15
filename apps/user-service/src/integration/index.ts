@@ -3,7 +3,6 @@ import { User } from "../models/user";
 
 export async function GetUsers() {
   const users = await User.find();
-  console.log("users", users);
   return users;
 }
 
@@ -19,10 +18,10 @@ export async function GetUserByUsername(username: string) {
   return user;
 }
 
-export async function GetUserById(id: string) {
-  const user = await User.findById(id);
-  return user;
-}
+// export async function GetUserById(id: string) {
+//   const user = await User.findById(id);
+//   return user;
+// }
 
 export async function FollowUser(userId: string, followUserId: string) {
   const user = await GetUserByUserId(userId);

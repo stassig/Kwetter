@@ -1,30 +1,35 @@
 import Profile from "../../components/Profile";
 import { HeaderResponsive } from "../../components/Header";
+import { getUserById, fetchUsers } from "../../api/users";
+import { useEffect, useState } from "react";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { User } from "../../types/user";
+import { UserData } from "../../types/user_data";
 
 const ProfileI = () => {
-  const userData = {
-    username: "John Doe",
-    profile_image_url: "https://randomuser.me/api/portraits/men/75.jpg",
-    following: 50,
-    followers: 200,
-    tweets: 150,
-    tweetData: [],
-    user_id: "123",
-    followingData: [
-      {
-        username: "Richard Roe",
-        userProfilePic: "https://randomuser.me/api/portraits/men/80.jpg",
-        following: 70,
-        followers: 250,
-        tweets: 180,
-      },
-    ],
-  };
+  const { user, error, isLoading } = useUser();
+
+  const [userData, setUser] = useState<UserData>();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (user && user.sub) {
+        const userData = await getUserById(user.sub.split("|")[1]);
+        setUser(userData);
+        console.log(userData);
+      }
+    };
+
+    fetchUser();
+  }, [user]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>{error.message}</div>;
 
   return (
     <>
       <HeaderResponsive />
-      <Profile user={userData} />
+      {userData && <Profile user={userData} />}
     </>
   );
 };
