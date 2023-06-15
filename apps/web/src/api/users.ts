@@ -65,3 +65,51 @@ export const getUserById = async (id: string): Promise<User> => {
   const user = await response.json();
   return user;
 };
+
+export const followUser = async (
+  userId: string,
+  followUserId: string
+): Promise<User> => {
+  const tokenResponse = await fetch(`${URL}/api/auth/token`);
+  const tokenData = await tokenResponse.json();
+
+  const response = await fetch(
+    `${GATEWAY_URL}/user/${encodeURIComponent(
+      userId
+    )}/follow/${encodeURIComponent(followUserId)}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + tokenData,
+      },
+    }
+  );
+
+  const user = await response.json();
+  return user as User;
+};
+
+export const unfollowUser = async (
+  userId: string,
+  unfollowUserId: string
+): Promise<User> => {
+  const tokenResponse = await fetch(`${URL}/api/auth/token`);
+  const tokenData = await tokenResponse.json();
+
+  const response = await fetch(
+    `${GATEWAY_URL}/user/${encodeURIComponent(
+      userId
+    )}/unfollow/${encodeURIComponent(unfollowUserId)}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + tokenData,
+      },
+    }
+  );
+
+  const user = await response.json();
+  return user as User;
+};

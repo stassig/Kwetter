@@ -46,6 +46,7 @@ export const userRouter = () => {
       req.params.id,
       req.params.followUserId
     );
+
     if (user) {
       return res.json(user);
     } else {

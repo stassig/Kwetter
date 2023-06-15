@@ -7,6 +7,8 @@ import {
   AiOutlineUserAdd,
 } from "react-icons/ai";
 import { format } from "date-fns";
+import { followUser, unfollowUser } from "../api/users";
+import { auth0_user } from "../types/auth0_user/auth0_user";
 
 interface TweetProps {
   profile_image_url: string;
@@ -14,20 +16,49 @@ interface TweetProps {
   content: string;
   likes_count: number;
   username: string;
+  user_id: string;
   onUnfollow: () => void;
   liked: boolean;
   onLike: () => void;
   showUnfollow: boolean;
 }
 
-const TweetComponent = ({ tweet }: { tweet: TweetProps }) => {
+const TweetComponent = ({
+  tweet,
+  user,
+}: {
+  tweet: TweetProps;
+  user: auth0_user;
+}) => {
   const [likes, setLikes] = useState(tweet.likes_count);
   const [liked, setLiked] = useState(tweet.liked);
   const [isFollowing, setFollowing] = useState<boolean>(false);
 
-  const handleFollow = () => {
-    setFollowing(!isFollowing);
-    // API call to follow/unfollow the user
+  const handleFollow = async () => {
+    try {
+      if (isFollowing) {
+        const response = await unfollowUser(
+          tweet.user_id.split("|")[1],
+          user.sub.split("|")[1]
+        );
+        if (response) {
+          setFollowing(false);
+          // Perform any necessary UI updates
+        }
+      } else {
+        const response = await followUser(
+          tweet.user_id.split("|")[1],
+          user.sub.split("|")[1]
+        );
+        if (response) {
+          setFollowing(true);
+          // Perform any necessary UI updates
+        }
+      }
+    } catch (error) {
+      // Handle error
+      console.error(error);
+    }
   };
 
   const handleLike = () => {

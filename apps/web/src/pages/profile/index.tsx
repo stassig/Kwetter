@@ -4,11 +4,12 @@ import { HeaderResponsive } from "../../components/Header";
 const ProfileI = () => {
   const userData = {
     username: "John Doe",
-    userProfilePic: "https://randomuser.me/api/portraits/men/75.jpg",
+    profile_image_url: "https://randomuser.me/api/portraits/men/75.jpg",
     following: 50,
     followers: 200,
     tweets: 150,
     tweetData: [],
+    user_id: "123",
     followingData: [
       {
         username: "Richard Roe",
@@ -16,20 +17,6 @@ const ProfileI = () => {
         following: 70,
         followers: 250,
         tweets: 180,
-      },
-      {
-        username: "Mike Minor",
-        userProfilePic: "https://randomuser.me/api/portraits/men/81.jpg",
-        following: 30,
-        followers: 120,
-        tweets: 110,
-      },
-      {
-        username: "Samuel Sampson",
-        userProfilePic: "https://randomuser.me/api/portraits/men/82.jpg",
-        following: 50,
-        followers: 220,
-        tweets: 170,
       },
     ],
   };

@@ -68,6 +68,7 @@ const Timeline = ({ user }: { user: auth0_user }) => {
             showUnfollow: true,
             liked: false,
           }}
+          user={user}
         />
       ))}
     </Container>

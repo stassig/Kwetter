@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import { Paper, Text, Avatar, Button, Col, Grid } from "@mantine/core";
 import { AiOutlineUser, AiOutlineUserAdd } from "react-icons/ai";
 import Tweet from "./Tweet";
+import { auth0_user } from "../types/auth0_user/auth0_user";
+import { set } from "date-fns";
 
 interface UserData {
+  user_id: string;
   username: string;
-  userProfilePic: string;
+  profile_image_url: string;
   following: number;
   followers: number;
   tweets: number;
@@ -15,6 +18,11 @@ interface UserData {
 
 const Profile = ({ user }: { user: UserData }) => {
   const [isFollowing, setFollowing] = useState<boolean>(false);
+  const [user_props, setUserProps] = useState<auth0_user>({
+    sub: user.user_id,
+    nickname: user.username,
+    picture: user.profile_image_url,
+  });
 
   const handleFollow = () => {
     setFollowing(!isFollowing);
@@ -23,7 +31,7 @@ const Profile = ({ user }: { user: UserData }) => {
 
   const tweetList = user.tweetData.map((tweet, index) => (
     <Col span={12} key={index}>
-      <Tweet tweet={{ ...tweet, showUnfollow: false }} />
+      <Tweet tweet={{ ...tweet, showUnfollow: false }} user={user_props} />
     </Col>
   ));
 
@@ -63,7 +71,7 @@ const Profile = ({ user }: { user: UserData }) => {
           }}
         >
           <Avatar
-            src={user.userProfilePic}
+            src={user.profile_image_url}
             size={120}
             style={{ flexShrink: 0, marginRight: 20 }}
           />

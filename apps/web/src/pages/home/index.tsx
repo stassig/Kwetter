@@ -13,10 +13,12 @@ const Home = () => {
   useEffect(() => {
     const setupUser = async () => {
       if (user && !user.isLoading && user.nickname) {
+        console.log(user);
+
         const userExists = await checkIfUserExists(user.nickname);
-        if (!userExists) {
+        if (!userExists && user.sub) {
           const newUser = {
-            user_id: user.sub,
+            user_id: user.sub.split("|")[1],
             username: user.nickname,
             profile_image_url: user.picture,
           };
