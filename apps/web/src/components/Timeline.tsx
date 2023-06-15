@@ -1,57 +1,35 @@
 import { Container } from "@mantine/core";
-import { useState } from "react";
-import Tweet from "./Tweet";
+import { useState, useEffect } from "react";
+import TweetComponent from "./Tweet";
 import CreateTweet from "./CreateTweet";
-import { format } from "date-fns";
+import { createTweet } from "../api/tweets";
+import { auth0_user } from "../types/auth0_user/auth0_user";
+import { fetchTweets } from "../api/tweets";
+import { TweetData } from "../types/tweet_data";
 
-// Define the structure of a tweet
-interface TweetData {
-  userProfilePic: string;
-  datePosted: string;
-  message: string;
-  numLikes: number;
-  username: string;
-  liked: boolean;
-}
+const Timeline = ({ user }: { user: auth0_user }) => {
+  const [tweets, setTweets] = useState<TweetData[]>([]);
 
-const initialTweets: TweetData[] = [
-  {
-    userProfilePic: "https://randomuser.me/api/portraits/men/81.jpg",
-    datePosted: format(
-      new Date("2023-06-12T12:00:00"),
-      "MMMM dd, yyyy, h:mm a"
-    ),
-    message: "Hello world! This is my first kwetter message!",
-    numLikes: 10,
-    username: "Mike Minor",
-    liked: false,
-  },
-  {
-    userProfilePic: "https://randomuser.me/api/portraits/men/82.jpg",
-    datePosted: format(
-      new Date("2023-06-11T08:30:00"),
-      "MMMM dd, yyyy, h:mm a"
-    ),
-    message: "Just having my morning coffee... ☕",
-    numLikes: 20,
-    username: "Samuel Sampson",
-    liked: false,
-  },
-  {
-    userProfilePic: "https://randomuser.me/api/portraits/men/80.jpg",
-    datePosted: format(
-      new Date("2023-06-10T17:45:00"),
-      "MMMM dd, yyyy, h:mm a"
-    ),
-    message: "Can't wait for the weekend! 🎉",
-    numLikes: 30,
-    username: "Richard Roe",
-    liked: false,
-  },
-];
+  useEffect(() => {
+    const loadTweets = async () => {
+      const fetchedTweets = await fetchTweets();
+      console.log(fetchedTweets);
+      setTweets(fetchedTweets);
+    };
 
-const Timeline = () => {
-  const [tweets, setTweets] = useState<TweetData[]>(initialTweets);
+    loadTweets();
+  }, []);
+
+  const handleCreate = async (content: string) => {
+    const newTweet = {
+      user_id: user.sub,
+      username: user.nickname,
+      profile_image_url: user.picture,
+      content: content,
+    };
+    const createdTweet = await createTweet(newTweet);
+    setTweets((prevTweets) => [createdTweet, ...prevTweets]);
+  };
 
   const handleUnfollow = (username: string) => {
     console.log(`Unfollowed ${username}`);
@@ -60,10 +38,12 @@ const Timeline = () => {
 
   const handleLike = async (tweetId: number) => {
     console.log("Liked!");
+    // Handle the like action here
+
     setTweets((prevTweets) =>
       prevTweets.map((tweet, index) => {
-        if (index === tweetId) {
-          return { ...tweet, liked: true, numLikes: tweet.numLikes + 1 };
+        if (index === tweetId && tweet.likes_count) {
+          return { ...tweet, liked: true, numLikes: tweet.likes_count + 1 };
         } else {
           return tweet;
         }
@@ -71,33 +51,22 @@ const Timeline = () => {
     );
   };
 
-  const handleCreate = (content: string) => {
-    const newTweet = {
-      userProfilePic: "/profile1.jpg",
-      datePosted: format(new Date(), "MMMM dd, yyyy, h:mm a"),
-      message: content,
-      numLikes: 0,
-      username: "User1",
-      liked: false,
-    };
-    setTweets([newTweet, ...tweets]);
-  };
-
   return (
     <Container size="sm">
       <CreateTweet
-        profileImage="https://randomuser.me/api/portraits/men/75.jpg"
-        username="John Doe"
+        profileImage={user.picture}
+        username={user.nickname}
         onCreate={handleCreate}
       />
       {tweets.map((tweet, index) => (
-        <Tweet
+        <TweetComponent
           key={index}
           tweet={{
             ...tweet,
             onUnfollow: () => handleUnfollow(tweet.username),
             onLike: () => handleLike(index),
             showUnfollow: true,
+            liked: false,
           }}
         />
       ))}

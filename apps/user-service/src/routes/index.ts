@@ -15,16 +15,30 @@ export const userRouter = () => {
     }
   });
 
+  router.get("/:id", async (req, res) => {
+    const user = await service.GetUserById(req.params.id);
+    if (user) {
+      return res.json(user);
+    } else {
+      return res.status(404).json({ message: "No user found" });
+    }
+  });
+
+  router.get("/check/:username", async (req, res) => {
+    const user = await service.GetUserByUsername(req.params.username);
+    if (user) {
+      return res.json({ exists: true });
+    } else {
+      return res.json({ exists: false });
+    }
+  });
+
   router.post("/", async (req, res) => {
     const user = await service.CreateUser(req.body);
     if (!user) {
       return res.status(404).json({ message: "Error creating a user" });
     }
     return res.json(user);
-  });
-
-  router.get("/crash", (req, res) => {
-    process.exit(1);
   });
 
   return router;

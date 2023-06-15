@@ -13,3 +13,13 @@ export async function CreateUser(data: any) {
   });
   return user;
 }
+
+export async function GetUserByUsername(username: string) {
+  const user = await User.findOne({ username });
+  return user;
+}
+
+export async function GetUserById(id: string) {
+  const user = await User.findById(id);
+  return user;
+}

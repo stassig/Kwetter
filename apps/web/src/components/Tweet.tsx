@@ -6,12 +6,13 @@ import {
   AiOutlineUser,
   AiOutlineUserAdd,
 } from "react-icons/ai";
+import { format } from "date-fns";
 
 interface TweetProps {
-  userProfilePic: string;
-  datePosted: string;
-  message: string;
-  numLikes: number;
+  profile_image_url: string;
+  created_at: string;
+  content: string;
+  likes_count: number;
   username: string;
   onUnfollow: () => void;
   liked: boolean;
@@ -19,8 +20,8 @@ interface TweetProps {
   showUnfollow: boolean;
 }
 
-const Tweet = ({ tweet }: { tweet: TweetProps }) => {
-  const [likes, setLikes] = useState(tweet.numLikes);
+const TweetComponent = ({ tweet }: { tweet: TweetProps }) => {
+  const [likes, setLikes] = useState(tweet.likes_count);
   const [liked, setLiked] = useState(tweet.liked);
   const [isFollowing, setFollowing] = useState<boolean>(false);
 
@@ -43,7 +44,7 @@ const Tweet = ({ tweet }: { tweet: TweetProps }) => {
     <Paper style={{ marginBottom: "10px", padding: "10px" }} shadow="xs">
       <div style={{ display: "flex", marginBottom: "10px" }}>
         <Avatar
-          src={tweet.userProfilePic}
+          src={tweet.profile_image_url}
           size={60}
           radius="xl"
           style={{ marginRight: "10px" }}
@@ -53,7 +54,7 @@ const Tweet = ({ tweet }: { tweet: TweetProps }) => {
             {tweet.username}
           </Text>
           <Text size="sm" color="dimmed">
-            {tweet.datePosted}
+            {format(new Date(tweet.created_at), "MMMM dd, yyyy, h:mm a")}
           </Text>
           <div
             style={{
@@ -62,7 +63,7 @@ const Tweet = ({ tweet }: { tweet: TweetProps }) => {
               wordBreak: "break-word",
             }}
           >
-            <Text>{tweet.message}</Text>
+            <Text>{tweet.content}</Text>
           </div>
 
           <div style={{ display: "flex", alignItems: "center" }}>
@@ -87,4 +88,4 @@ const Tweet = ({ tweet }: { tweet: TweetProps }) => {
   );
 };
 
-export default Tweet;
+export default TweetComponent;

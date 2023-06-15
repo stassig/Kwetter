@@ -72,13 +72,24 @@
       ]
     },
     {
-      "endpoint": "/user/crash",
+      "endpoint": "/user/{id}",
       "method": "GET",
       "backend": [
         {
           "host": "http://localhost:3002",
           "method": "GET",
-          "url_pattern": "/crash"
+          "url_pattern": "/{id}"
+        }
+      ]
+    },
+    {
+      "endpoint": "/user/check/{username}",
+      "method": "GET",
+      "backend": [
+        {
+          "host": "http://localhost:3002",
+          "method": "GET",
+          "url_pattern": "/check/{username}"
         }
       ]
     }
