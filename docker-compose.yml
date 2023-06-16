@@ -41,6 +41,20 @@ services:
     depends_on:
       - krakend
 
+  timeline-service:
+    container_name: timeline-service
+    build:
+      context: .
+      dockerfile: ./apps/timeline-service/Dockerfile
+    image: individual-timeline-service:latest
+    restart: always
+    ports:
+      - 3003:3003
+    networks:
+      - app_network
+    depends_on:
+      - krakend
+
   krakend:
     container_name: krakend
     build:
@@ -52,8 +66,5 @@ services:
     networks:
       - app_network
 
-# Define a network, which allows containers to communicate
-# with each other, by using their container name as a hostname
-# test
 networks:
   app_network:

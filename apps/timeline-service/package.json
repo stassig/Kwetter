@@ -1,5 +1,5 @@
 {
-  "name": "tweet-service",
+  "name": "timeline-service",
   "version": "1.0.0",
   "private": true,
   "scripts": {
