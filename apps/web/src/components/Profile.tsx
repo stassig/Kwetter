@@ -82,7 +82,6 @@ const Profile = ({ user }: { user: UserData }) => {
       <TweetComponent
         tweet={{
           ...tweet,
-          showUnfollow: false,
           liked: true,
         }}
         user={user_props}

@@ -1,13 +1,7 @@
 import { useState } from "react";
 import { Paper, Text, Avatar, Badge, Button } from "@mantine/core";
-import {
-  AiOutlineHeart,
-  AiFillHeart,
-  AiOutlineUser,
-  AiOutlineUserAdd,
-} from "react-icons/ai";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { format } from "date-fns";
-import { followUser, unfollowUser } from "../api/users";
 import { auth0_user } from "../types/auth0_user/auth0_user";
 import toastr from "toastr";
 
@@ -18,10 +12,8 @@ interface TweetProps {
   likes_count: number;
   username: string;
   user_id: string;
-  onUnfollow?: () => void;
   liked: boolean;
   onLike?: () => void;
-  showUnfollow: boolean;
 }
 
 const TweetComponent = ({
@@ -33,34 +25,6 @@ const TweetComponent = ({
 }) => {
   const [likes, setLikes] = useState(tweet.likes_count);
   const [liked, setLiked] = useState(tweet.liked);
-  const [isFollowing, setFollowing] = useState<boolean>(false);
-
-  const handleFollow = async () => {
-    try {
-      if (isFollowing) {
-        const response = await unfollowUser(
-          tweet.user_id.split("|")[1],
-          user.sub.split("|")[1]
-        );
-        if (response) {
-          setFollowing(false);
-          toastr.success("Unfollowed user");
-        }
-      } else {
-        const response = await followUser(
-          user.sub.split("|")[1],
-          tweet.user_id.split("|")[1]
-        );
-        if (response) {
-          setFollowing(true);
-          toastr.success("Followed user");
-        }
-      }
-    } catch (error) {
-      // Handle error
-      console.error(error);
-    }
-  };
 
   const handleLike = () => {
     if (tweet.onLike) tweet.onLike();
@@ -105,16 +69,6 @@ const TweetComponent = ({
             <Badge color="pink">{likes}</Badge>
           </div>
         </div>
-        {tweet.showUnfollow && (
-          <Button
-            rightIcon={isFollowing ? <AiOutlineUser /> : <AiOutlineUserAdd />}
-            color={isFollowing ? "gray" : "blue"}
-            onClick={handleFollow}
-            style={{ marginLeft: "auto" }}
-          >
-            {isFollowing ? "Unfollow" : "Follow"}
-          </Button>
-        )}
       </div>
     </Paper>
   );

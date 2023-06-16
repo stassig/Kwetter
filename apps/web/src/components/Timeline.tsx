@@ -31,11 +31,6 @@ const Timeline = ({ user }: { user: auth0_user }) => {
     setTweets((prevTweets) => [createdTweet, ...prevTweets]);
   };
 
-  const handleUnfollow = (username: string) => {
-    console.log(`Unfollowed ${username}`);
-    // Handle the unfollow action here
-  };
-
   const handleLike = async (tweetId: number) => {
     console.log("Liked!");
     // Handle the like action here
@@ -63,9 +58,7 @@ const Timeline = ({ user }: { user: auth0_user }) => {
           key={index}
           tweet={{
             ...tweet,
-            onUnfollow: () => handleUnfollow(tweet.username),
             onLike: () => handleLike(index),
-            showUnfollow: true,
             liked: false,
           }}
           user={user}
