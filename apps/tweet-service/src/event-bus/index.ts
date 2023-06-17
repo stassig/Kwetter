@@ -3,7 +3,6 @@
 import amqp from "amqplib";
 
 const QUEUE_NAME = "tweet-queue";
-const REPLY_QUEUE = "tweet-reply-queue";
 
 const URL = process.env.RABBITMQ_URL || "amqp://localhost:5672";
 
@@ -19,7 +18,6 @@ export async function connectQueue() {
     connection.on("close", handleConnectionClose);
     channel = await connection.createChannel();
 
-    await channel.assertQueue(REPLY_QUEUE);
     await channel.assertQueue(QUEUE_NAME);
 
     console.log("Connected to RabbitMQ");

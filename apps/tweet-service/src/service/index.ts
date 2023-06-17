@@ -10,14 +10,17 @@ export async function GetTweets() {
 }
 
 export async function CreateTweet(data: any) {
-  const tweet = await prisma.CreateTweet(data);
+  const tweet = await prisma.CreateTweet(data.tweet);
   if (tweet) {
+    // Extract follower IDs from the followers array
+    const followerIds = data.followers.map((follower: any) => follower);
+
     // Create the message to send to the timeline service
     const message = {
       type: "CreateTweet",
       data: {
-        userId: tweet.user_id,
         tweetId: tweet._id,
+        followerIds: followerIds,
       },
     };
 
@@ -26,4 +29,44 @@ export async function CreateTweet(data: any) {
   }
 
   return tweet;
+}
+
+// Add this to your Tweet Service Layer
+export async function UpdateFollowing(follow_user_id: string, user_id: string) {
+  const tweets = await prisma.GetTweetsByUserId(follow_user_id);
+  const tweetIds = tweets.map((tweet) => tweet._id.toString());
+
+  const message = {
+    type: "Follow",
+    data: {
+      tweetIds: tweetIds,
+      userId: user_id,
+    },
+  };
+
+  // Send the message
+  await sendData(message);
+
+  return tweets;
+}
+
+export async function UpdateUnfollow(
+  unfollow_user_id: string,
+  user_id: string
+) {
+  const tweets = await prisma.GetTweetsByUserId(unfollow_user_id);
+  const tweetIds = tweets.map((tweet) => tweet._id.toString());
+
+  const message = {
+    type: "Unfollow",
+    data: {
+      tweetIds: tweetIds,
+      userId: user_id,
+    },
+  };
+
+  // Send the message
+  await sendData(message);
+
+  return tweets;
 }

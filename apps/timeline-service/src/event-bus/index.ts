@@ -2,6 +2,7 @@
 
 import amqp from "amqplib";
 import { handleFollow, handleUnfollow, handleCreateTweet } from "../service";
+
 const QUEUE_NAME = "tweet-queue";
 
 let channel: amqp.Channel, connection: amqp.Connection;
@@ -20,7 +21,6 @@ export async function connectQueue() {
         const message = JSON.parse(msg.content.toString());
         console.log(`Received message!`);
         console.log(`Type:`, message.type);
-        console.log(`Data`, message.data);
 
         // Service layer logic below
         switch (message.type) {

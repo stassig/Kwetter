@@ -12,3 +12,8 @@ export async function CreateTweet(data: any) {
   });
   return tweet;
 }
+
+export async function GetTweetsByUserId(userId: string) {
+  const tweets = await Tweet.find({ user_id: userId });
+  return tweets;
+}

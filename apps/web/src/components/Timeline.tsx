@@ -7,13 +7,18 @@ import { auth0_user } from "../types/auth0_user/auth0_user";
 import { fetchTweets } from "../api/tweets";
 import { TweetData } from "../types/tweet_data";
 
-const Timeline = ({ user }: { user: auth0_user }) => {
+const Timeline = ({
+  user,
+  followers,
+}: {
+  user: auth0_user;
+  followers: Array<any>;
+}) => {
   const [tweets, setTweets] = useState<TweetData[]>([]);
 
   useEffect(() => {
     const loadTweets = async () => {
       const fetchedTweets = await fetchTweets();
-      console.log(fetchedTweets);
       setTweets(fetchedTweets);
     };
 
@@ -27,7 +32,7 @@ const Timeline = ({ user }: { user: auth0_user }) => {
       profile_image_url: user.picture,
       content: content,
     };
-    const createdTweet = await createTweet(newTweet);
+    const createdTweet = await createTweet(newTweet, followers);
     setTweets((prevTweets) => [createdTweet, ...prevTweets]);
   };
 

@@ -26,5 +26,21 @@ export const tweetRouter = () => {
     return res.json(tweet);
   });
 
+  router.post("/follow", async (req, res) => {
+    const { user_id, follow_user_id } = req.body;
+
+    await service.UpdateFollowing(follow_user_id, user_id);
+
+    return res.json({ message: "success" });
+  });
+
+  router.post("/unfollow", async (req, res) => {
+    const { user_id, unfollow_user_id } = req.body;
+
+    await service.UpdateUnfollow(unfollow_user_id, user_id);
+
+    return res.json({ message: "success" });
+  });
+
   return router;
 };

@@ -49,6 +49,28 @@
       ]
     },
     {
+      "endpoint": "/tweet/follow",
+      "method": "POST",
+      "backend": [
+        {
+          "host": "http://localhost:3001",
+          "method": "POST",
+          "url_pattern": "/follow"
+        }
+      ]
+    },
+    {
+      "endpoint": "/tweet/unfollow",
+      "method": "POST",
+      "backend": [
+        {
+          "host": "http://localhost:3001",
+          "method": "POST",
+          "url_pattern": "/unfollow"
+        }
+      ]
+    },
+    {
       "endpoint": "/user",
       "method": "GET",
       "backend": [

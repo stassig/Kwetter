@@ -1,5 +1,6 @@
 import { User } from "../types/user";
 import { UserData } from "../types/user_data";
+import { updateFollowing, updateUnfollowing } from "./tweets";
 
 const URL = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
 const GATEWAY_URL =
@@ -20,7 +21,9 @@ export const fetchUsers = async (): Promise<UserData[]> => {
   return users.collection;
 };
 
-export const checkIfUserExists = async (username: string): Promise<boolean> => {
+export const checkIfUserExists = async (
+  username: string
+): Promise<UserData> => {
   const tokenResponse = await fetch(`${URL}/api/auth/token`);
   const tokenData = await tokenResponse.json();
 
@@ -31,8 +34,8 @@ export const checkIfUserExists = async (username: string): Promise<boolean> => {
     },
   });
 
-  const { exists } = await response.json();
-  return exists;
+  const user = await response.json();
+  return user;
 };
 
 export const createUser = async (data: any): Promise<User> => {
@@ -64,6 +67,7 @@ export const getUserById = async (id: string): Promise<UserData> => {
   });
 
   const user = await response.json();
+
   return user;
 };
 
@@ -88,6 +92,11 @@ export const followUser = async (
   );
 
   const user = await response.json();
+
+  if (response.ok) {
+    await updateFollowing(userId, followUserId);
+  }
+
   return user as User;
 };
 
@@ -112,5 +121,10 @@ export const unfollowUser = async (
   );
 
   const user = await response.json();
+
+  if (response.ok) {
+    await updateUnfollowing(userId, unfollowUserId);
+  }
+
   return user as User;
 };
