@@ -5,7 +5,10 @@ const URL = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
 const GATEWAY_URL =
   process.env.NEXT_PUBLIC_GATEWAY_URL || "http://localhost:8080";
 
-export const fetchTweets = async (tweetIds: string[]): Promise<TweetData[]> => {
+export const fetchTweets = async (
+  tweetIds: string[],
+  userId: string
+): Promise<TweetData[]> => {
   const tokenResponse = await fetch(`${URL}/api/auth/token`);
   const tokenData = await tokenResponse.json();
 
@@ -23,6 +26,12 @@ export const fetchTweets = async (tweetIds: string[]): Promise<TweetData[]> => {
   });
 
   const tweets = await response.json();
+
+  tweets.collection = tweets.collection.map((tweet: TweetData) => ({
+    ...tweet,
+    liked: tweet.liked_by.includes(userId),
+  }));
+
   return tweets.collection;
 };
 
@@ -65,6 +74,12 @@ export const getTweetsByUserId = async (
   });
 
   const tweets = await response.json();
+
+  tweets.collection = tweets.collection.map((tweet: TweetData) => ({
+    ...tweet,
+    liked: tweet.liked_by.includes(userId),
+  }));
+
   return tweets.collection;
 };
 
@@ -100,6 +115,44 @@ export const updateUnfollowing = async (
   };
 
   await fetch(`${GATEWAY_URL}/tweet/unfollow`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + tokenData,
+    },
+    body: JSON.stringify(requestBody),
+  });
+};
+
+export const likeTweet = async (userId: string, tweetId: string) => {
+  const tokenResponse = await fetch(`${URL}/api/auth/token`);
+  const tokenData = await tokenResponse.json();
+
+  const requestBody = {
+    user_id: userId,
+    tweet_id: tweetId,
+  };
+
+  await fetch(`${GATEWAY_URL}/like`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + tokenData,
+    },
+    body: JSON.stringify(requestBody),
+  });
+};
+
+export const dislikeTweet = async (userId: string, tweetId: string) => {
+  const tokenResponse = await fetch(`${URL}/api/auth/token`);
+  const tokenData = await tokenResponse.json();
+
+  const requestBody = {
+    user_id: userId,
+    tweet_id: tweetId,
+  };
+
+  await fetch(`${GATEWAY_URL}/dislike`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

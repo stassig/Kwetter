@@ -18,7 +18,6 @@ export const getTimelineByUserId = async (
   });
 
   const timeline = await response.json();
-  console.log(timeline);
 
   return timeline;
 };

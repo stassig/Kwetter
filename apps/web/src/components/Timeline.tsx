@@ -1,13 +1,19 @@
-import { Container } from "@mantine/core";
-import { useState, useEffect } from "react";
 import TweetComponent from "./Tweet";
 import CreateTweet from "./CreateTweet";
-import { createTweet, fetchTweets } from "../api/tweets";
-import {} from "../api/tweets";
+
+import toastr from "toastr";
+import { Container } from "@mantine/core";
+import { useState, useEffect } from "react";
+
+import {
+  createTweet,
+  fetchTweets,
+  likeTweet,
+  dislikeTweet,
+} from "../api/tweets";
+import { getTimelineByUserId } from "../api/timeline";
 import { TweetData } from "../types/tweet_data";
 import { Timeline } from "../types/timeline";
-import { getTimelineByUserId } from "../api/timeline";
-import toastr from "toastr";
 
 const Timeline = ({
   userId,
@@ -27,7 +33,10 @@ const Timeline = ({
     const fetchTimeline = async () => {
       const fetchedTimeline = await getTimelineByUserId(userId);
       setTimeline(fetchedTimeline);
-      const fetchedTweets = await fetchTweets(fetchedTimeline.tweet_ids);
+      const fetchedTweets = await fetchTweets(
+        fetchedTimeline.tweet_ids,
+        userId
+      );
       setTweets(fetchedTweets);
     };
 
@@ -44,15 +53,21 @@ const Timeline = ({
     await createTweet(newTweet, followers);
     toastr.success("Tweet posted!");
   };
-
-  const handleLike = async (tweetId: number) => {
-    console.log("Liked!");
-    // Handle the like action here
+  const handleLike = async (tweetId: string, liked: boolean) => {
+    if (liked) {
+      await dislikeTweet(userId, tweetId);
+    } else {
+      await likeTweet(userId, tweetId);
+    }
 
     setTweets((prevTweets) =>
-      prevTweets.map((tweet, index) => {
-        if (index === tweetId && tweet.likes_count) {
-          return { ...tweet, liked: true, numLikes: tweet.likes_count + 1 };
+      prevTweets.map((tweet) => {
+        if (tweet._id === tweetId) {
+          return {
+            ...tweet,
+            liked: !liked,
+            likes_count: liked ? tweet.likes_count - 1 : tweet.likes_count + 1,
+          };
         } else {
           return tweet;
         }
@@ -72,8 +87,8 @@ const Timeline = ({
           key={index}
           tweet={{
             ...tweet,
-            onLike: () => handleLike(index),
-            liked: false,
+            onLike: () => handleLike(tweet._id, tweet.liked),
+            disableLike: false,
           }}
         />
       ))}

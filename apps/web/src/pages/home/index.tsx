@@ -19,7 +19,6 @@ const Home = () => {
         setUserProps(userExists);
 
         if (userExists.message == "No user found" && user.sub) {
-          console.log("userExists is null");
           const newUser = {
             user_id: user.sub.split("|")[1],
             username: user.nickname,

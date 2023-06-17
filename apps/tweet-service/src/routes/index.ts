@@ -51,5 +51,23 @@ export const tweetRouter = () => {
     return res.json({ message: "success" });
   });
 
+  router.post("/like", async (req, res) => {
+    const { user_id, tweet_id } = req.body;
+    const tweet = await service.LikeTweet(user_id, tweet_id);
+    if (!tweet) {
+      return res.status(404).json({ message: "Unable to like the tweet" });
+    }
+    return res.json(tweet);
+  });
+
+  router.post("/dislike", async (req, res) => {
+    const { user_id, tweet_id } = req.body;
+    const tweet = await service.DislikeTweet(user_id, tweet_id);
+    if (!tweet) {
+      return res.status(404).json({ message: "Unable to dislike the tweet" });
+    }
+    return res.json(tweet);
+  });
+
   return router;
 };

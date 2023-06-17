@@ -35,7 +35,6 @@ export const checkIfUserExists = async (
   });
 
   const user = await response.json();
-  console.log(user);
 
   return user;
 };
@@ -94,7 +93,6 @@ export const followUser = async (
   );
 
   const user = await response.json();
-  console.log(user);
   if (response.ok) {
     await updateFollowing(user._id, followUserId);
   }

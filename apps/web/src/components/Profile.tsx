@@ -1,16 +1,12 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Paper, Text, Avatar, Button, Col, Grid } from "@mantine/core";
 import { AiOutlineUser, AiOutlineUserAdd } from "react-icons/ai";
-import TweetComponent from "./Tweet";
 import { User } from "../types/user";
-import {
-  getUserById,
-  fetchUsers,
-  followUser,
-  unfollowUser,
-} from "../api/users";
+import { fetchUsers, followUser, unfollowUser } from "../api/users";
 import { getTweetsByUserId } from "../api/tweets";
 import { TweetData } from "../types/tweet_data";
+import TweetComponent from "./Tweet";
+import toastr from "toastr";
 
 interface UserData {
   _id: string;
@@ -22,7 +18,6 @@ interface UserData {
 }
 
 const Profile = ({ user }: { user: UserData }) => {
-  console.log(user);
   const [followingStatus, setFollowingStatus] = useState<{
     [key: string]: boolean;
   }>({});
@@ -35,9 +30,11 @@ const Profile = ({ user }: { user: UserData }) => {
     if (isCurrentlyFollowing) {
       await unfollowUser(user._id, userId);
       setFollowingCount(followingCount - 1);
+      toastr.success("Unfollowed!");
     } else {
       await followUser(user._id, userId);
       setFollowingCount(followingCount + 1);
+      toastr.success("Followed!");
     }
     setFollowingStatus({ ...followingStatus, [userId]: !isCurrentlyFollowing });
   };
@@ -78,13 +75,13 @@ const Profile = ({ user }: { user: UserData }) => {
         tweet={{
           ...tweet,
           liked: true,
+          disableLike: true,
         }}
       />
     </Col>
   ));
 
   const usersList = users.map((user, index) => {
-    console.log(user);
     const isFollowing = followingStatus[user._id] || false;
     return (
       <Col span={12} style={{ marginBottom: 10 }} key={index}>

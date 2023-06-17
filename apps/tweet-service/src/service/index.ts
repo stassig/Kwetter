@@ -14,6 +14,16 @@ export async function GetTweetsByIds(tweetIds: string[]) {
   return tweets;
 }
 
+export async function LikeTweet(user_id: string, tweet_id: string) {
+  const tweet = await prisma.LikeTweet(user_id, tweet_id);
+  return tweet;
+}
+
+export async function DislikeTweet(user_id: string, tweet_id: string) {
+  const tweet = await prisma.DislikeTweet(user_id, tweet_id);
+  return tweet;
+}
+
 export async function CreateTweet(data: any) {
   const tweet = await prisma.CreateTweet(data.tweet);
   if (tweet) {
