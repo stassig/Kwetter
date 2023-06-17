@@ -2,6 +2,7 @@
 
 import { createServer } from "./server";
 import { timelineRouter } from "./routes";
+import { startListening } from "./event-bus";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
@@ -25,6 +26,9 @@ mongoose
   .connect(mongoURI)
   .then(() => console.log("Connected to MongoDB"))
   .catch((error) => console.error("MongoDB connection error:", error));
+
+// Start listening to RabbitMQ
+startListening();
 
 const server = createServer();
 

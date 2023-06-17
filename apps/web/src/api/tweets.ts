@@ -8,7 +8,6 @@ const GATEWAY_URL =
 export const fetchTweets = async (): Promise<TweetData[]> => {
   const tokenResponse = await fetch(`${URL}/api/auth/token`);
   const tokenData = await tokenResponse.json();
-
   const response = await fetch(`${GATEWAY_URL}/tweet`, {
     headers: {
       "Content-Type": "application/json",

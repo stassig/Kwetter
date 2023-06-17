@@ -13,3 +13,18 @@ export async function CreateTimeline(data: any) {
 
   return timeline;
 }
+
+export async function handleFollow(data: any) {
+  // Add the tweets to the user's timeline
+  console.log("Handling follow event");
+}
+
+export async function handleUnfollow(data: any) {
+  // Remove the tweets from the user's timeline
+  console.log("Handling unfollow event");
+}
+
+export async function handleCreateTweet(data: any) {
+  // Add the tweet to each follower's timeline
+  console.log("Handling create tweet event");
+}
