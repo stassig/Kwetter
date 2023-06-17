@@ -40,6 +40,13 @@
     {
       "endpoint": "/getByUserId/{userId}",
       "method": "GET",
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "audience": ["https://dev-p1zuevhv7lzho4wp.eu.auth0.com/api/v2/"],
+          "jwk_url": "https://dev-p1zuevhv7lzho4wp.eu.auth0.com/.well-known/jwks.json"
+        }
+      },
       "backend": [
         {
           "host": "http://localhost:3001",
@@ -52,6 +59,13 @@
     {
       "endpoint": "/tweet",
       "method": "POST",
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "audience": ["https://dev-p1zuevhv7lzho4wp.eu.auth0.com/api/v2/"],
+          "jwk_url": "https://dev-p1zuevhv7lzho4wp.eu.auth0.com/.well-known/jwks.json"
+        }
+      },
       "backend": [
         {
           "host": "http://localhost:3001",
@@ -63,6 +77,13 @@
     {
       "endpoint": "/like",
       "method": "POST",
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "audience": ["https://dev-p1zuevhv7lzho4wp.eu.auth0.com/api/v2/"],
+          "jwk_url": "https://dev-p1zuevhv7lzho4wp.eu.auth0.com/.well-known/jwks.json"
+        }
+      },
       "backend": [
         {
           "host": "http://localhost:3001",
@@ -74,6 +95,13 @@
     {
       "endpoint": "/dislike",
       "method": "POST",
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "audience": ["https://dev-p1zuevhv7lzho4wp.eu.auth0.com/api/v2/"],
+          "jwk_url": "https://dev-p1zuevhv7lzho4wp.eu.auth0.com/.well-known/jwks.json"
+        }
+      },
       "backend": [
         {
           "host": "http://localhost:3001",
@@ -85,6 +113,13 @@
     {
       "endpoint": "/tweet/follow",
       "method": "POST",
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "audience": ["https://dev-p1zuevhv7lzho4wp.eu.auth0.com/api/v2/"],
+          "jwk_url": "https://dev-p1zuevhv7lzho4wp.eu.auth0.com/.well-known/jwks.json"
+        }
+      },
       "backend": [
         {
           "host": "http://localhost:3001",
@@ -96,6 +131,13 @@
     {
       "endpoint": "/tweet/unfollow",
       "method": "POST",
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "audience": ["https://dev-p1zuevhv7lzho4wp.eu.auth0.com/api/v2/"],
+          "jwk_url": "https://dev-p1zuevhv7lzho4wp.eu.auth0.com/.well-known/jwks.json"
+        }
+      },
       "backend": [
         {
           "host": "http://localhost:3001",
@@ -107,6 +149,13 @@
     {
       "endpoint": "/user",
       "method": "GET",
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "audience": ["https://dev-p1zuevhv7lzho4wp.eu.auth0.com/api/v2/"],
+          "jwk_url": "https://dev-p1zuevhv7lzho4wp.eu.auth0.com/.well-known/jwks.json"
+        }
+      },
       "backend": [
         {
           "host": "http://localhost:3002",
@@ -119,6 +168,13 @@
     {
       "endpoint": "/user",
       "method": "POST",
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "audience": ["https://dev-p1zuevhv7lzho4wp.eu.auth0.com/api/v2/"],
+          "jwk_url": "https://dev-p1zuevhv7lzho4wp.eu.auth0.com/.well-known/jwks.json"
+        }
+      },
       "backend": [
         {
           "host": "http://localhost:3002",
@@ -130,6 +186,13 @@
     {
       "endpoint": "/user/{id}",
       "method": "GET",
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "audience": ["https://dev-p1zuevhv7lzho4wp.eu.auth0.com/api/v2/"],
+          "jwk_url": "https://dev-p1zuevhv7lzho4wp.eu.auth0.com/.well-known/jwks.json"
+        }
+      },
       "backend": [
         {
           "host": "http://localhost:3002",
@@ -141,6 +204,13 @@
     {
       "endpoint": "/user/check/{username}",
       "method": "GET",
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "audience": ["https://dev-p1zuevhv7lzho4wp.eu.auth0.com/api/v2/"],
+          "jwk_url": "https://dev-p1zuevhv7lzho4wp.eu.auth0.com/.well-known/jwks.json"
+        }
+      },
       "backend": [
         {
           "host": "http://localhost:3002",
@@ -152,6 +222,13 @@
     {
       "endpoint": "/user/{id}/follow/{followUserId}",
       "method": "POST",
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "audience": ["https://dev-p1zuevhv7lzho4wp.eu.auth0.com/api/v2/"],
+          "jwk_url": "https://dev-p1zuevhv7lzho4wp.eu.auth0.com/.well-known/jwks.json"
+        }
+      },
       "backend": [
         {
           "host": "http://localhost:3002",
@@ -163,6 +240,13 @@
     {
       "endpoint": "/user/{id}/unfollow/{unfollowUserId}",
       "method": "POST",
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "audience": ["https://dev-p1zuevhv7lzho4wp.eu.auth0.com/api/v2/"],
+          "jwk_url": "https://dev-p1zuevhv7lzho4wp.eu.auth0.com/.well-known/jwks.json"
+        }
+      },
       "backend": [
         {
           "host": "http://localhost:3002",
@@ -174,6 +258,13 @@
     {
       "endpoint": "/timeline/{id}",
       "method": "GET",
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "audience": ["https://dev-p1zuevhv7lzho4wp.eu.auth0.com/api/v2/"],
+          "jwk_url": "https://dev-p1zuevhv7lzho4wp.eu.auth0.com/.well-known/jwks.json"
+        }
+      },
       "backend": [
         {
           "host": "http://localhost:3003",

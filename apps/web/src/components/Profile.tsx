@@ -25,18 +25,34 @@ const Profile = ({ user }: { user: UserData }) => {
   const [followingCount, setFollowingCount] = useState(user.following.length);
   const [users, setUsers] = useState<User[]>([]);
 
-  const handleFollow = async (userId: string) => {
+  const handleFollow = (userId: string) => {
     const isCurrentlyFollowing = followingStatus[userId];
+
+    let followPromise;
+
     if (isCurrentlyFollowing) {
-      await unfollowUser(user._id, userId);
+      followPromise = unfollowUser(user._id, userId);
       setFollowingCount(followingCount - 1);
-      toastr.success("Unfollowed!");
     } else {
-      await followUser(user._id, userId);
+      followPromise = followUser(user._id, userId);
       setFollowingCount(followingCount + 1);
-      toastr.success("Followed!");
     }
-    setFollowingStatus({ ...followingStatus, [userId]: !isCurrentlyFollowing });
+
+    Promise.all([
+      followPromise,
+      new Promise((resolve) => {
+        setFollowingStatus((prevFollowingStatus) => {
+          return { ...prevFollowingStatus, [userId]: !isCurrentlyFollowing };
+        });
+        resolve(null);
+      }),
+    ])
+      .then(() => {
+        toastr.success(isCurrentlyFollowing ? "Unfollowed!" : "Followed!");
+      })
+      .catch((error) => {
+        console.error("Error updating follow status: ", error);
+      });
   };
 
   useEffect(() => {

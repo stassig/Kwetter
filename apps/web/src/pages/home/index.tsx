@@ -10,34 +10,38 @@ const Home = () => {
   const [followers, setFollowers] = useState<any[]>([]);
   const [user_props, setUserProps] = useState<any>({});
 
-  useEffect(() => {
-    const setupUser = async () => {
-      if (user && !isLoading && user.nickname) {
-        const userExists = await checkIfUserExists(user.nickname);
+  const checkUser = async () => {
+    if (user && !isLoading && user.nickname) {
+      const userExists = await checkIfUserExists(user.nickname);
 
-        setFollowers(userExists.followers);
+      setFollowers(userExists.followers);
+
+      if (userExists.message == "No user found" && user.sub) {
+        const newUser = {
+          user_id: user.sub.split("|")[1],
+          username: user.nickname,
+          profile_image_url: user.picture,
+        };
+        const response = await createUser(newUser);
+        setUserProps(response);
+      } else {
         setUserProps(userExists);
-
-        if (userExists.message == "No user found" && user.sub) {
-          const newUser = {
-            user_id: user.sub.split("|")[1],
-            username: user.nickname,
-            profile_image_url: user.picture,
-          };
-          await createUser(newUser);
-        }
       }
-    };
-
-    if (user) {
-      setupUser().catch((error) => {});
     }
-  }, [user, isLoading, setFollowers]);
+  };
 
-  if (isLoading) return <div>Loading...</div>;
+  useEffect(() => {
+    if (user && !isLoading && user.nickname && user.sub && !user_props._id) {
+      checkUser();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setFollowers, user]);
+
+  if (isLoading || !user_props._id) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
 
-  return user_props._id ? (
+  return (
     <div>
       <HeaderResponsive />
       <Timeline
@@ -47,7 +51,7 @@ const Home = () => {
         followers={followers}
       />
     </div>
-  ) : null;
+  );
 };
 
 export default Home;

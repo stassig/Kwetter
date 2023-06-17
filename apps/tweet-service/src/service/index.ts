@@ -28,6 +28,7 @@ export async function CreateTweet(data: any) {
   const tweet = await prisma.CreateTweet(data.tweet);
   if (tweet) {
     // Extract follower IDs from the followers array
+    if (!data.followers) return tweet;
     const followerIds = data.followers.map((follower: any) => follower);
 
     // Create the message to send to the timeline service

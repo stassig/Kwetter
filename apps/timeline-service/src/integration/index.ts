@@ -2,7 +2,12 @@
 import { Timeline } from "../models/timeline";
 
 export async function GetTimeline(userId: string) {
-  const timeline = await Timeline.findOne({ user_id: userId });
+  let timeline = await Timeline.findOne({ user_id: userId });
+
+  if (!timeline) {
+    // If the timeline does not exist, create a new one
+    timeline = await Timeline.create({ user_id: userId, tweet_ids: [] });
+  }
   return timeline;
 }
 
