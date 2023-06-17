@@ -18,14 +18,14 @@ export async function GetUserByUsername(username: string) {
   return user;
 }
 
-// export async function GetUserById(id: string) {
-//   const user = await User.findById(id);
-//   return user;
-// }
+export async function GetUserById(id: string) {
+  const user = await User.findById(id);
+  return user;
+}
 
 export async function FollowUser(userId: string, followUserId: string) {
-  const user = await GetUserByUserId(userId);
-  const followUser = await GetUserByUserId(followUserId);
+  const user = await GetUserById(userId);
+  const followUser = await GetUserById(followUserId);
 
   if (!user || !followUser) {
     return null;
@@ -40,22 +40,22 @@ export async function FollowUser(userId: string, followUserId: string) {
 }
 
 export async function UnfollowUser(userId: string, unfollowUserId: string) {
-  const user = await GetUserByUserId(userId);
-  const unfollowUser = await GetUserByUserId(unfollowUserId);
+  const user = await GetUserById(userId);
+  const unfollowUser = await GetUserById(unfollowUserId);
 
   if (!user || !unfollowUser) {
     return null;
   }
 
   const updatedUser = await User.findOneAndUpdate(
-    { user_id: userId, following: unfollowUser._id },
+    { _id: userId, following: unfollowUser._id },
     { $pull: { following: unfollowUser._id } },
     { new: true }
   );
 
   if (updatedUser) {
     await User.findOneAndUpdate(
-      { user_id: unfollowUserId, followers: user._id },
+      { _id: unfollowUserId, followers: user._id },
       { $pull: { followers: user._id } }
     );
   }

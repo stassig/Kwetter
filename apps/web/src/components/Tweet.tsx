@@ -16,13 +16,7 @@ interface TweetProps {
   onLike?: () => void;
 }
 
-const TweetComponent = ({
-  tweet,
-  user,
-}: {
-  tweet: TweetProps;
-  user: auth0_user;
-}) => {
+const TweetComponent = ({ tweet }: { tweet: TweetProps }) => {
   const [likes, setLikes] = useState(tweet.likes_count);
   const [liked, setLiked] = useState(tweet.liked);
 

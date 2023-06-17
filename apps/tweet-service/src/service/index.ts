@@ -9,6 +9,12 @@ export async function GetTweets() {
   return tweets;
 }
 
+export async function GetTweetsByIds(tweetIds: string[]) {
+  const tweets = await prisma.GetTweetsByIds(tweetIds);
+
+  return tweets;
+}
+
 export async function CreateTweet(data: any) {
   const tweet = await prisma.CreateTweet(data.tweet);
   if (tweet) {
@@ -33,7 +39,9 @@ export async function CreateTweet(data: any) {
 
 // Add this to your Tweet Service Layer
 export async function UpdateFollowing(follow_user_id: string, user_id: string) {
+  console.log(follow_user_id);
   const tweets = await prisma.GetTweetsByUserId(follow_user_id);
+  console.log(tweets);
   const tweetIds = tweets.map((tweet) => tweet._id.toString());
 
   const message = {

@@ -13,9 +13,16 @@ export const tweetRouter = () => {
     } else {
       return res.status(404).json({ message: "No tweets found" });
     }
+  });
 
-    // res.set("Cache-Control", "public ,max-age=1000, s-maxage=1000")
-    // return res.json([{ text: "test" }]);
+  router.post("/tweet-ids", async (req, res) => {
+    const { tweetIds } = req.body;
+
+    const tweets = await service.GetTweetsByIds(tweetIds);
+    if (!tweets) {
+      return res.status(404).json({ message: "No tweets found for given IDs" });
+    }
+    return res.json(tweets);
   });
 
   router.post("/", async (req, res) => {

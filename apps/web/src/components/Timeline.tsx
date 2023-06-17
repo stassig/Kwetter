@@ -8,11 +8,15 @@ import { fetchTweets } from "../api/tweets";
 import { TweetData } from "../types/tweet_data";
 
 const Timeline = ({
-  user,
+  userId,
+  username,
+  profile_image_url,
   followers,
 }: {
-  user: auth0_user;
   followers: Array<any>;
+  userId: string;
+  username: string;
+  profile_image_url: string;
 }) => {
   const [tweets, setTweets] = useState<TweetData[]>([]);
 
@@ -27,9 +31,9 @@ const Timeline = ({
 
   const handleCreate = async (content: string) => {
     const newTweet = {
-      user_id: user.sub.split("|")[1],
-      username: user.nickname,
-      profile_image_url: user.picture,
+      user_id: userId,
+      username: username,
+      profile_image_url: profile_image_url,
       content: content,
     };
     const createdTweet = await createTweet(newTweet, followers);
@@ -54,8 +58,8 @@ const Timeline = ({
   return (
     <Container size="sm">
       <CreateTweet
-        profileImage={user.picture}
-        username={user.nickname}
+        profileImage={profile_image_url}
+        username={username}
         onCreate={handleCreate}
       />
       {tweets.map((tweet, index) => (
@@ -66,7 +70,6 @@ const Timeline = ({
             onLike: () => handleLike(index),
             liked: false,
           }}
-          user={user}
         />
       ))}
     </Container>

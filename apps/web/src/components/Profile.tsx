@@ -2,7 +2,6 @@ import { use, useEffect, useState } from "react";
 import { Paper, Text, Avatar, Button, Col, Grid } from "@mantine/core";
 import { AiOutlineUser, AiOutlineUserAdd } from "react-icons/ai";
 import TweetComponent from "./Tweet";
-import { auth0_user } from "../types/auth0_user/auth0_user";
 import { User } from "../types/user";
 import {
   getUserById,
@@ -14,6 +13,7 @@ import { fetchTweets } from "../api/tweets";
 import { TweetData } from "../types/tweet_data";
 
 interface UserData {
+  _id: string;
   user_id: string;
   username: string;
   profile_image_url: string;
@@ -22,25 +22,21 @@ interface UserData {
 }
 
 const Profile = ({ user }: { user: UserData }) => {
+  console.log(user);
   const [followingStatus, setFollowingStatus] = useState<{
     [key: string]: boolean;
   }>({});
   const [tweets, setTweets] = useState<TweetData[]>([]);
   const [followingCount, setFollowingCount] = useState(user.following.length);
   const [users, setUsers] = useState<User[]>([]);
-  const [user_props, setUserProps] = useState<auth0_user>({
-    sub: user.user_id,
-    nickname: user.username,
-    picture: user.profile_image_url,
-  });
 
   const handleFollow = async (userId: string) => {
     const isCurrentlyFollowing = followingStatus[userId];
     if (isCurrentlyFollowing) {
-      await unfollowUser(user.user_id, userId);
+      await unfollowUser(user._id, userId);
       setFollowingCount(followingCount - 1);
     } else {
-      await followUser(user.user_id, userId);
+      await followUser(user._id, userId);
       setFollowingCount(followingCount + 1);
     }
     setFollowingStatus({ ...followingStatus, [userId]: !isCurrentlyFollowing });
@@ -49,7 +45,6 @@ const Profile = ({ user }: { user: UserData }) => {
   useEffect(() => {
     const getTweets = async () => {
       const tweets = await fetchTweets();
-      // console.log(tweets);
       setTweets(tweets);
     };
     getTweets();
@@ -61,11 +56,11 @@ const Profile = ({ user }: { user: UserData }) => {
       const newFollowingStatus: { [key: string]: boolean } = {};
 
       fetchedUsers = fetchedUsers.filter(
-        (fetchedUser) => fetchedUser.user_id !== user.user_id
+        (fetchedUser) => fetchedUser._id !== user._id
       );
 
       fetchedUsers.forEach((fetchedUser) => {
-        newFollowingStatus[fetchedUser.user_id] = user.following.includes(
+        newFollowingStatus[fetchedUser._id] = user.following.includes(
           fetchedUser._id
         );
       });
@@ -84,13 +79,13 @@ const Profile = ({ user }: { user: UserData }) => {
           ...tweet,
           liked: true,
         }}
-        user={user_props}
       />
     </Col>
   ));
 
   const usersList = users.map((user, index) => {
-    const isFollowing = followingStatus[user.user_id] || false;
+    console.log(user);
+    const isFollowing = followingStatus[user._id] || false;
     return (
       <Col span={12} style={{ marginBottom: 10 }} key={index}>
         <Paper
@@ -106,7 +101,7 @@ const Profile = ({ user }: { user: UserData }) => {
           <Button
             rightIcon={isFollowing ? <AiOutlineUser /> : <AiOutlineUserAdd />}
             color={isFollowing ? "gray" : "blue"}
-            onClick={() => handleFollow(user.user_id)}
+            onClick={() => handleFollow(user._id)}
             style={{ marginLeft: "auto" }}
           >
             {isFollowing ? "Unfollow" : "Follow"}

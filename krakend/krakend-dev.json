@@ -136,6 +136,17 @@
           "url_pattern": "/{id}/unfollow/{unfollowUserId}"
         }
       ]
+    },
+    {
+      "endpoint": "/timeline/{id}",
+      "method": "GET",
+      "backend": [
+        {
+          "host": "http://localhost:3003",
+          "method": "GET",
+          "url_pattern": "/{id}"
+        }
+      ]
     }
   ]
 }

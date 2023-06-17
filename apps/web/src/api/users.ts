@@ -35,6 +35,8 @@ export const checkIfUserExists = async (
   });
 
   const user = await response.json();
+  console.log(user);
+
   return user;
 };
 
@@ -92,9 +94,9 @@ export const followUser = async (
   );
 
   const user = await response.json();
-
+  console.log(user);
   if (response.ok) {
-    await updateFollowing(userId, followUserId);
+    await updateFollowing(user._id, followUserId);
   }
 
   return user as User;
@@ -123,7 +125,7 @@ export const unfollowUser = async (
   const user = await response.json();
 
   if (response.ok) {
-    await updateUnfollowing(userId, unfollowUserId);
+    await updateUnfollowing(user._id, unfollowUserId);
   }
 
   return user as User;

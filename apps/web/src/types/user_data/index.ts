@@ -6,4 +6,5 @@ export interface UserData {
   username: string;
   following: Array<any>;
   followers: Array<any>;
+  message?: string;
 }

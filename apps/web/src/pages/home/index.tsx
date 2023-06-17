@@ -3,21 +3,23 @@ import { useEffect, useState } from "react";
 import { HeaderResponsive } from "../../components/Header";
 import Timeline from "../../components/Timeline";
 import { checkIfUserExists, createUser } from "../../api/users";
-import { auth0_user } from "../../types/auth0_user/auth0_user";
 import { UserData } from "../../types/user_data";
 
 const Home = () => {
   const { user, error, isLoading } = useUser();
   const [followers, setFollowers] = useState<any[]>([]);
+  const [user_props, setUserProps] = useState<any>({});
 
   useEffect(() => {
     const setupUser = async () => {
       if (user && !isLoading && user.nickname) {
         const userExists = await checkIfUserExists(user.nickname);
-        console.log(userExists);
-        setFollowers(userExists.followers);
 
-        if (!userExists && user.sub) {
+        setFollowers(userExists.followers);
+        setUserProps(userExists);
+
+        if (userExists.message == "No user found" && user.sub) {
+          console.log("userExists is null");
           const newUser = {
             user_id: user.sub.split("|")[1],
             username: user.nickname,
@@ -39,7 +41,12 @@ const Home = () => {
   return user ? (
     <div>
       <HeaderResponsive />
-      <Timeline user={user as auth0_user} followers={followers} />
+      <Timeline
+        userId={user_props._id}
+        username={user_props.username}
+        profile_image_url={user_props.profile_image_url}
+        followers={followers}
+      />
     </div>
   ) : null;
 };
