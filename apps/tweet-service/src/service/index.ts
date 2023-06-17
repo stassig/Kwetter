@@ -3,9 +3,8 @@
 import * as prisma from "../integration/index";
 import { sendData } from "../event-bus";
 
-export async function GetTweets() {
-  const tweets = await prisma.GetTweets();
-
+export async function GetTweetsByUserId(userId: string) {
+  const tweets = await prisma.GetTweetsByUserId(userId);
   return tweets;
 }
 

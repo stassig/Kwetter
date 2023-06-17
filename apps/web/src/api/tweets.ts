@@ -5,14 +5,21 @@ const URL = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
 const GATEWAY_URL =
   process.env.NEXT_PUBLIC_GATEWAY_URL || "http://localhost:8080";
 
-export const fetchTweets = async (): Promise<TweetData[]> => {
+export const fetchTweets = async (tweetIds: string[]): Promise<TweetData[]> => {
   const tokenResponse = await fetch(`${URL}/api/auth/token`);
   const tokenData = await tokenResponse.json();
-  const response = await fetch(`${GATEWAY_URL}/tweet`, {
+
+  const requestBody = {
+    tweetIds: tweetIds,
+  };
+
+  const response = await fetch(`${GATEWAY_URL}/tweet-ids`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + tokenData,
     },
+    body: JSON.stringify(requestBody),
   });
 
   const tweets = await response.json();
@@ -41,6 +48,24 @@ export const createTweet = async (
   });
   const newTweet = await response.json();
   return newTweet;
+};
+
+export const getTweetsByUserId = async (
+  userId: string
+): Promise<TweetData[]> => {
+  const tokenResponse = await fetch(`${URL}/api/auth/token`);
+  const tokenData = await tokenResponse.json();
+
+  const response = await fetch(`${GATEWAY_URL}/getByUserId/${userId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + tokenData,
+    },
+  });
+
+  const tweets = await response.json();
+  return tweets.collection;
 };
 
 export const updateFollowing = async (userId: string, followUserId: string) => {

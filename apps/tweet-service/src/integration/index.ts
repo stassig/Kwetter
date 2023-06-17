@@ -9,7 +9,7 @@ export async function GetTweets() {
 export async function GetTweetsByIds(tweetIds: string[]) {
   const tweets = await Tweet.find({
     _id: { $in: tweetIds },
-  });
+  }).sort({ created_at: -1 });
   return tweets;
 }
 
@@ -21,7 +21,6 @@ export async function CreateTweet(data: any) {
 }
 
 export async function GetTweetsByUserId(userId: string) {
-  const tweets = await Tweet.find({ user_id: userId });
-  // Tweet.findById(userId);
+  const tweets = await Tweet.find({ user_id: userId }).sort({ created_at: -1 });
   return tweets;
 }

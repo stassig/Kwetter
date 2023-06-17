@@ -6,15 +6,6 @@ import * as service from "../service/index";
 export const tweetRouter = () => {
   const router = Router();
 
-  router.get("/", async (req, res) => {
-    const tweets = await service.GetTweets();
-    if (tweets) {
-      return res.json(tweets);
-    } else {
-      return res.status(404).json({ message: "No tweets found" });
-    }
-  });
-
   router.post("/tweet-ids", async (req, res) => {
     const { tweetIds } = req.body;
 
@@ -22,6 +13,17 @@ export const tweetRouter = () => {
     if (!tweets) {
       return res.status(404).json({ message: "No tweets found for given IDs" });
     }
+    return res.json(tweets);
+  });
+
+  router.get("/getByUserId/:userId", async (req, res) => {
+    const { userId } = req.params;
+
+    const tweets = await service.GetTweetsByUserId(userId);
+    if (!tweets) {
+      return res.status(404).json({ message: "No tweets found for this user" });
+    }
+
     return res.json(tweets);
   });
 

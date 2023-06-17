@@ -2,10 +2,12 @@ import { Container } from "@mantine/core";
 import { useState, useEffect } from "react";
 import TweetComponent from "./Tweet";
 import CreateTweet from "./CreateTweet";
-import { createTweet } from "../api/tweets";
-import { auth0_user } from "../types/auth0_user/auth0_user";
-import { fetchTweets } from "../api/tweets";
+import { createTweet, fetchTweets } from "../api/tweets";
+import {} from "../api/tweets";
 import { TweetData } from "../types/tweet_data";
+import { Timeline } from "../types/timeline";
+import { getTimelineByUserId } from "../api/timeline";
+import toastr from "toastr";
 
 const Timeline = ({
   userId,
@@ -19,15 +21,18 @@ const Timeline = ({
   profile_image_url: string;
 }) => {
   const [tweets, setTweets] = useState<TweetData[]>([]);
+  const [timeline, setTimeline] = useState<Timeline>();
 
   useEffect(() => {
-    const loadTweets = async () => {
-      const fetchedTweets = await fetchTweets();
+    const fetchTimeline = async () => {
+      const fetchedTimeline = await getTimelineByUserId(userId);
+      setTimeline(fetchedTimeline);
+      const fetchedTweets = await fetchTweets(fetchedTimeline.tweet_ids);
       setTweets(fetchedTweets);
     };
 
-    loadTweets();
-  }, []);
+    fetchTimeline();
+  }, [userId]);
 
   const handleCreate = async (content: string) => {
     const newTweet = {
@@ -36,8 +41,8 @@ const Timeline = ({
       profile_image_url: profile_image_url,
       content: content,
     };
-    const createdTweet = await createTweet(newTweet, followers);
-    setTweets((prevTweets) => [createdTweet, ...prevTweets]);
+    await createTweet(newTweet, followers);
+    toastr.success("Tweet posted!");
   };
 
   const handleLike = async (tweetId: number) => {

@@ -9,7 +9,7 @@ import {
   followUser,
   unfollowUser,
 } from "../api/users";
-import { fetchTweets } from "../api/tweets";
+import { getTweetsByUserId } from "../api/tweets";
 import { TweetData } from "../types/tweet_data";
 
 interface UserData {
@@ -44,11 +44,11 @@ const Profile = ({ user }: { user: UserData }) => {
 
   useEffect(() => {
     const getTweets = async () => {
-      const tweets = await fetchTweets();
+      const tweets = await getTweetsByUserId(user._id);
       setTweets(tweets);
     };
     getTweets();
-  }, []);
+  }, [user._id]);
 
   useEffect(() => {
     const fetchUsersData = async () => {

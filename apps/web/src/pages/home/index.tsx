@@ -38,7 +38,7 @@ const Home = () => {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
 
-  return user ? (
+  return user_props._id ? (
     <div>
       <HeaderResponsive />
       <Timeline

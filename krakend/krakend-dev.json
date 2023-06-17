@@ -19,8 +19,8 @@
   },
   "endpoints": [
     {
-      "endpoint": "/tweet",
-      "method": "GET",
+      "endpoint": "/tweet-ids",
+      "method": "POST",
       "extra_config": {
         "auth/validator": {
           "alg": "RS256",
@@ -31,8 +31,20 @@
       "backend": [
         {
           "host": "http://localhost:3001",
+          "method": "POST",
+          "url_pattern": "/tweet-ids",
+          "is_collection": true
+        }
+      ]
+    },
+    {
+      "endpoint": "//getByUserId/{userId}",
+      "method": "GET",
+      "backend": [
+        {
+          "host": "http://localhost:3001",
           "method": "GET",
-          "url_pattern": "/",
+          "url_pattern": "/getByUserId/{userId}",
           "is_collection": true
         }
       ]
