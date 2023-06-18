@@ -1,19 +1,15 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Paper, Text, Avatar, Button, Col, Grid } from "@mantine/core";
 import { AiOutlineUser, AiOutlineUserAdd } from "react-icons/ai";
-import TweetComponent from "./Tweet";
-import { auth0_user } from "../types/auth0_user/auth0_user";
 import { User } from "../types/user";
-import {
-  getUserById,
-  fetchUsers,
-  followUser,
-  unfollowUser,
-} from "../api/users";
-import { fetchTweets } from "../api/tweets";
+import { fetchUsers, followUser, unfollowUser } from "../api/users";
+import { getTweetsByUserId } from "../api/tweets";
 import { TweetData } from "../types/tweet_data";
+import TweetComponent from "./Tweet";
+import toastr from "toastr";
 
 interface UserData {
+  _id: string;
   user_id: string;
   username: string;
   profile_image_url: string;
@@ -28,32 +24,44 @@ const Profile = ({ user }: { user: UserData }) => {
   const [tweets, setTweets] = useState<TweetData[]>([]);
   const [followingCount, setFollowingCount] = useState(user.following.length);
   const [users, setUsers] = useState<User[]>([]);
-  const [user_props, setUserProps] = useState<auth0_user>({
-    sub: user.user_id,
-    nickname: user.username,
-    picture: user.profile_image_url,
-  });
 
-  const handleFollow = async (userId: string) => {
+  const handleFollow = (userId: string) => {
     const isCurrentlyFollowing = followingStatus[userId];
+
+    let followPromise;
+
     if (isCurrentlyFollowing) {
-      await unfollowUser(user.user_id, userId);
+      followPromise = unfollowUser(user._id, userId);
       setFollowingCount(followingCount - 1);
     } else {
-      await followUser(user.user_id, userId);
+      followPromise = followUser(user._id, userId);
       setFollowingCount(followingCount + 1);
     }
-    setFollowingStatus({ ...followingStatus, [userId]: !isCurrentlyFollowing });
+
+    Promise.all([
+      followPromise,
+      new Promise((resolve) => {
+        setFollowingStatus((prevFollowingStatus) => {
+          return { ...prevFollowingStatus, [userId]: !isCurrentlyFollowing };
+        });
+        resolve(null);
+      }),
+    ])
+      .then(() => {
+        toastr.success(isCurrentlyFollowing ? "Unfollowed!" : "Followed!");
+      })
+      .catch((error) => {
+        console.error("Error updating follow status: ", error);
+      });
   };
 
   useEffect(() => {
     const getTweets = async () => {
-      const tweets = await fetchTweets();
-      // console.log(tweets);
+      const tweets = await getTweetsByUserId(user._id);
       setTweets(tweets);
     };
     getTweets();
-  }, []);
+  }, [user._id]);
 
   useEffect(() => {
     const fetchUsersData = async () => {
@@ -61,11 +69,11 @@ const Profile = ({ user }: { user: UserData }) => {
       const newFollowingStatus: { [key: string]: boolean } = {};
 
       fetchedUsers = fetchedUsers.filter(
-        (fetchedUser) => fetchedUser.user_id !== user.user_id
+        (fetchedUser) => fetchedUser._id !== user._id
       );
 
       fetchedUsers.forEach((fetchedUser) => {
-        newFollowingStatus[fetchedUser.user_id] = user.following.includes(
+        newFollowingStatus[fetchedUser._id] = user.following.includes(
           fetchedUser._id
         );
       });
@@ -83,14 +91,14 @@ const Profile = ({ user }: { user: UserData }) => {
         tweet={{
           ...tweet,
           liked: true,
+          disableLike: true,
         }}
-        user={user_props}
       />
     </Col>
   ));
 
   const usersList = users.map((user, index) => {
-    const isFollowing = followingStatus[user.user_id] || false;
+    const isFollowing = followingStatus[user._id] || false;
     return (
       <Col span={12} style={{ marginBottom: 10 }} key={index}>
         <Paper
@@ -106,7 +114,7 @@ const Profile = ({ user }: { user: UserData }) => {
           <Button
             rightIcon={isFollowing ? <AiOutlineUser /> : <AiOutlineUserAdd />}
             color={isFollowing ? "gray" : "blue"}
-            onClick={() => handleFollow(user.user_id)}
+            onClick={() => handleFollow(user._id)}
             style={{ marginLeft: "auto" }}
           >
             {isFollowing ? "Unfollow" : "Follow"}

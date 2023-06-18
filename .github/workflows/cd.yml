@@ -65,6 +65,9 @@ jobs:
           docker tag individual-tweet-service:latest ${{ env.ACR_NAME }}.azurecr.io/tweet-service:${{ env.COMMIT_HASH }}
           docker push ${{ env.ACR_NAME }}.azurecr.io/tweet-service:${{ env.COMMIT_HASH }}
 
+          docker tag individual-timeline-service:latest ${{ env.ACR_NAME }}.azurecr.io/timeline-service:${{ env.COMMIT_HASH }}
+          docker push ${{ env.ACR_NAME }}.azurecr.io/timeline-service:${{ env.COMMIT_HASH }}
+
   # Second job to deploy the Docker images to Azure Kubernetes Service (AKS)
   deploy:
     # Runs the job on the latest version of Ubuntu

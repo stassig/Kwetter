@@ -1,5 +1,6 @@
 import { Avatar, Button, Textarea } from "@mantine/core";
 import { useState } from "react";
+import toastr from "toastr";
 
 interface CreateTweetProps {
   profileImage: string;
@@ -19,8 +20,12 @@ const CreateTweet = ({
   };
 
   const handleButtonClick = () => {
-    onCreate(content);
-    setContent("");
+    if (content.trim().length > 0) {
+      onCreate(content);
+      setContent("");
+    } else {
+      toastr.error("Please enter some text!");
+    }
   };
 
   return (
@@ -48,7 +53,7 @@ const CreateTweet = ({
           onChange={handleInputChange}
           value={content}
           minRows={3}
-          style={{ flexGrow: 1 }} // Textarea takes up the remaining space
+          style={{ flexGrow: 1 }}
         />
       </div>
       <Button

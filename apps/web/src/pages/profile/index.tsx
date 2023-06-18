@@ -16,7 +16,6 @@ const ProfileI = () => {
       if (user && user.sub) {
         const userData = await getUserById(user.sub.split("|")[1]);
         setUser(userData);
-        console.log(userData);
       }
     };
 

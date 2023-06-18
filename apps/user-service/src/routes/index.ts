@@ -27,9 +27,9 @@ export const userRouter = () => {
   router.get("/check/:username", async (req, res) => {
     const user = await service.GetUserByUsername(req.params.username);
     if (user) {
-      return res.json({ exists: true });
+      return res.json(user);
     } else {
-      return res.json({ exists: false });
+      return res.json({ message: "No user found" });
     }
   });
 

@@ -112,8 +112,6 @@ const links = [
 ];
 
 export function HeaderResponsive() {
-  console.log("links", links);
-
   const [opened, { toggle, close }] = useDisclosure(false);
   const [active, setActive] = useState(links.length > 0 ? links[0].link : "");
   const { classes, cx } = useStyles();

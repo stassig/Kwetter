@@ -12,6 +12,14 @@ services:
       - 3000:3000
     networks:
       - app_network
+    environment:
+      - NEXT_PUBLIC_URL=http://localhost:3000
+      - NEXT_PUBLIC_GATEWAY_URL=http://krakend:8080/
+      - AUTH0_SECRET=a40b025a53285bc15037ac02c50bb419503693cb99f8b55139569617c848148c
+      - AUTH0_BASE_URL=http://localhost:3000
+      - AUTH0_ISSUER_BASE_URL=https://dev-p1zuevhv7lzho4wp.eu.auth0.com
+      - AUTH0_CLIENT_ID=lsx1SFNVh4BkqjxPIw2uzJgHbdJClHqv
+      - AUTH0_CLIENT_SECRET=VIH-luYMS8UA16QwjrVxwT8gavXKzqZUaiQkXNCtDTDyaM3UsgvaCo5c5Nbhe8nP
 
   tweet-service:
     container_name: tweet-service
@@ -41,6 +49,20 @@ services:
     depends_on:
       - krakend
 
+  timeline-service:
+    container_name: timeline-service
+    build:
+      context: .
+      dockerfile: ./apps/timeline-service/Dockerfile
+    image: individual-timeline-service:latest
+    restart: always
+    ports:
+      - 3003:3003
+    networks:
+      - app_network
+    depends_on:
+      - krakend
+
   krakend:
     container_name: krakend
     build:
@@ -52,8 +74,20 @@ services:
     networks:
       - app_network
 
-# Define a network, which allows containers to communicate
-# with each other, by using their container name as a hostname
-# test
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    hostname: rabbitmq
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    restart: always
+    networks:
+      - app_network
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_DEFAULT_VHOST=/
+
 networks:
   app_network:

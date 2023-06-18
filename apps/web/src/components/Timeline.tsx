@@ -1,44 +1,73 @@
-import { Container } from "@mantine/core";
-import { useState, useEffect } from "react";
 import TweetComponent from "./Tweet";
 import CreateTweet from "./CreateTweet";
-import { createTweet } from "../api/tweets";
-import { auth0_user } from "../types/auth0_user/auth0_user";
-import { fetchTweets } from "../api/tweets";
-import { TweetData } from "../types/tweet_data";
 
-const Timeline = ({ user }: { user: auth0_user }) => {
+import toastr from "toastr";
+import { Container } from "@mantine/core";
+import { useState, useEffect } from "react";
+
+import {
+  createTweet,
+  fetchTweets,
+  likeTweet,
+  dislikeTweet,
+} from "../api/tweets";
+import { getTimelineByUserId } from "../api/timeline";
+import { TweetData } from "../types/tweet_data";
+import { Timeline } from "../types/timeline";
+
+const Timeline = ({
+  userId,
+  username,
+  profile_image_url,
+  followers,
+}: {
+  followers: Array<any>;
+  userId: string;
+  username: string;
+  profile_image_url: string;
+}) => {
   const [tweets, setTweets] = useState<TweetData[]>([]);
+  const [timeline, setTimeline] = useState<Timeline>();
 
   useEffect(() => {
-    const loadTweets = async () => {
-      const fetchedTweets = await fetchTweets();
-      console.log(fetchedTweets);
+    const fetchTimeline = async () => {
+      const fetchedTimeline = await getTimelineByUserId(userId);
+      setTimeline(fetchedTimeline);
+      const fetchedTweets = await fetchTweets(
+        fetchedTimeline.tweet_ids,
+        userId
+      );
       setTweets(fetchedTweets);
     };
 
-    loadTweets();
-  }, []);
+    fetchTimeline();
+  }, [userId]);
 
   const handleCreate = async (content: string) => {
     const newTweet = {
-      user_id: user.sub.split("|")[1],
-      username: user.nickname,
-      profile_image_url: user.picture,
+      user_id: userId,
+      username: username,
+      profile_image_url: profile_image_url,
       content: content,
     };
-    const createdTweet = await createTweet(newTweet);
-    setTweets((prevTweets) => [createdTweet, ...prevTweets]);
+    await createTweet(newTweet, followers);
+    toastr.success("Tweet posted!");
   };
-
-  const handleLike = async (tweetId: number) => {
-    console.log("Liked!");
-    // Handle the like action here
+  const handleLike = async (tweetId: string, liked: boolean) => {
+    if (liked) {
+      await dislikeTweet(userId, tweetId);
+    } else {
+      await likeTweet(userId, tweetId);
+    }
 
     setTweets((prevTweets) =>
-      prevTweets.map((tweet, index) => {
-        if (index === tweetId && tweet.likes_count) {
-          return { ...tweet, liked: true, numLikes: tweet.likes_count + 1 };
+      prevTweets.map((tweet) => {
+        if (tweet._id === tweetId) {
+          return {
+            ...tweet,
+            liked: !liked,
+            likes_count: liked ? tweet.likes_count - 1 : tweet.likes_count + 1,
+          };
         } else {
           return tweet;
         }
@@ -49,8 +78,8 @@ const Timeline = ({ user }: { user: auth0_user }) => {
   return (
     <Container size="sm">
       <CreateTweet
-        profileImage={user.picture}
-        username={user.nickname}
+        profileImage={profile_image_url}
+        username={username}
         onCreate={handleCreate}
       />
       {tweets.map((tweet, index) => (
@@ -58,10 +87,9 @@ const Timeline = ({ user }: { user: auth0_user }) => {
           key={index}
           tweet={{
             ...tweet,
-            onLike: () => handleLike(index),
-            liked: false,
+            onLike: () => handleLike(tweet._id, tweet.liked),
+            disableLike: false,
           }}
-          user={user}
         />
       ))}
     </Container>

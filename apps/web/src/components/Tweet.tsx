@@ -2,8 +2,6 @@ import { useState } from "react";
 import { Paper, Text, Avatar, Badge, Button } from "@mantine/core";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { format } from "date-fns";
-import { auth0_user } from "../types/auth0_user/auth0_user";
-import toastr from "toastr";
 
 interface TweetProps {
   profile_image_url: string;
@@ -14,26 +12,17 @@ interface TweetProps {
   user_id: string;
   liked: boolean;
   onLike?: () => void;
+  disableLike?: boolean;
 }
 
-const TweetComponent = ({
-  tweet,
-  user,
-}: {
-  tweet: TweetProps;
-  user: auth0_user;
-}) => {
+const TweetComponent = ({ tweet }: { tweet: TweetProps }) => {
   const [likes, setLikes] = useState(tweet.likes_count);
   const [liked, setLiked] = useState(tweet.liked);
 
   const handleLike = () => {
     if (tweet.onLike) tweet.onLike();
-    if (!liked) {
-      setLikes(likes + 1);
-    } else {
-      setLikes(likes - 1);
-    }
     setLiked(!liked);
+    setLikes(liked ? likes - 1 : likes + 1);
   };
 
   return (
@@ -63,9 +52,15 @@ const TweetComponent = ({
           </div>
 
           <div style={{ display: "flex", alignItems: "center" }}>
-            <Button variant="link" onClick={handleLike}>
-              {liked ? <AiFillHeart color="red" /> : <AiOutlineHeart />}
-            </Button>
+            {tweet.disableLike ? (
+              <span style={{ marginRight: "10px" }}>
+                {liked ? <AiFillHeart color="red" /> : <AiOutlineHeart />}
+              </span>
+            ) : (
+              <Button variant="link" onClick={handleLike}>
+                {liked ? <AiFillHeart color="red" /> : <AiOutlineHeart />}
+              </Button>
+            )}
             <Badge color="pink">{likes}</Badge>
           </div>
         </div>

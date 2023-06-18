@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:3.12-management
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              value: "guest"
+            - name: RABBITMQ_DEFAULT_PASS
+              value: "guest"
+            - name: RABBITMQ_DEFAULT_VHOST
+              value: "/"
+            # - name: RABBITMQ_DEFAULT_USER
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: secrets
+            #       key: RABBITMQ_DEFAULT_USER
+            # - name: RABBITMQ_DEFAULT_PASS
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: secrets
+            #       key: RABBITMQ_DEFAULT_PASS
+            # - name: RABBITMQ_DEFAULT_VHOST
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: secrets
+            #       key: RABBITMQ_DEFAULT_VHOST
+          ports:
+            # management port (access the web interface)
+            - containerPort: 15672
+              name: rbmq-mgmt-port
+            # port that our clients (services) will connect to
+            - containerPort: 5672
+              name: rbmq-msg-port
+          resources: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+spec:
+  type: ClusterIP
+  selector:
+    app: rabbitmq
+  ports:
+    - name: rbmq-mgmt-port
+      protocol: TCP
+      port: 15672
+      targetPort: 15672
+    - name: rbmq-msg-port
+      protocol: TCP
+      port: 5672
+      targetPort: 5672
