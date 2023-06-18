@@ -17,26 +17,20 @@ spec:
           image: rabbitmq:3.12-management
           env:
             - name: RABBITMQ_DEFAULT_USER
-              value: "guest"
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: RABBITMQ_DEFAULT_USER
             - name: RABBITMQ_DEFAULT_PASS
-              value: "guest"
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: RABBITMQ_DEFAULT_PASS
             - name: RABBITMQ_DEFAULT_VHOST
-              value: "/"
-            # - name: RABBITMQ_DEFAULT_USER
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: secrets
-            #       key: RABBITMQ_DEFAULT_USER
-            # - name: RABBITMQ_DEFAULT_PASS
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: secrets
-            #       key: RABBITMQ_DEFAULT_PASS
-            # - name: RABBITMQ_DEFAULT_VHOST
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: secrets
-            #       key: RABBITMQ_DEFAULT_VHOST
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: RABBITMQ_DEFAULT_VHOST
           ports:
             # management port (access the web interface)
             - containerPort: 15672
