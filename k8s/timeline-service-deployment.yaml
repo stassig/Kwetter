@@ -22,7 +22,7 @@ spec:
           imagePullPolicy: Always
           name: timeline-service
           ports:
-            - containerPort: 3001
+            - containerPort: 3003
           resources:
             requests:
               cpu: 100m
@@ -37,7 +37,10 @@ spec:
                   name: secrets
                   key: DB_URL_TIMELINE
             - name: RABBITMQ_URL
-              value: amqp://rabbitmq:5672
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: RABBITMQ_URL
       restartPolicy: Always
 ---
 apiVersion: v1
@@ -50,8 +53,8 @@ spec:
   type: ClusterIP
   ports:
     - name: "timeline-service-port"
-      port: 3001
-      targetPort: 3001
+      port: 3003
+      targetPort: 3003
   selector:
     app: timeline-service
 ---
