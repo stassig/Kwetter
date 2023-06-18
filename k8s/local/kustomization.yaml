@@ -4,8 +4,11 @@ kind: Kustomization
 resources:
   - tweet-service-deployment.yaml
   - user-service-deployment.yaml
+  - timeline-service-deployment.yaml
+  - rabbitmq-deployment.yaml
   - krakend-deployment.yaml
   - api-gateway-ingress.yaml
+  - rabbitmq-ingress.yaml
   - secrets.yaml
 
 images:
@@ -18,5 +21,6 @@ images:
   - name: krakend
     newName: spContaineRegistry.azurecr.io/krakend
     newTag: 2edee673d5edf1db1bd6a7dd2b1caaecaf97db52
-
-
+  - name: timeline-service
+    newName: spContaineRegistry.azurecr.io/timeline-service
+    newTag: 2edee673d5edf1db1bd6a7dd2b1caaecaf97db52

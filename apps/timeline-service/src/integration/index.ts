@@ -58,7 +58,6 @@ export async function handleUnfollow(data: any) {
 export async function handleCreateTweet(data: any) {
   try {
     const { tweetId, followerIds } = data;
-    console.log(followerIds);
 
     // For each follower, add the new tweet id to their timeline
     for (const userId of followerIds) {

@@ -49,9 +49,7 @@ export async function CreateTweet(data: any) {
 
 // Add this to your Tweet Service Layer
 export async function UpdateFollowing(follow_user_id: string, user_id: string) {
-  console.log(follow_user_id);
   const tweets = await prisma.GetTweetsByUserId(follow_user_id);
-  console.log(tweets);
   const tweetIds = tweets.map((tweet) => tweet._id.toString());
 
   const message = {

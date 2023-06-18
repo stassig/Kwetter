@@ -26,7 +26,6 @@ export const userRouter = () => {
 
   router.get("/check/:username", async (req, res) => {
     const user = await service.GetUserByUsername(req.params.username);
-    console.log(user);
     if (user) {
       return res.json(user);
     } else {
