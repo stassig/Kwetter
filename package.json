@@ -19,14 +19,14 @@
     "db:studio": "turbo run db:studio"
   },
   "devDependencies": {
+    "@playwright/test": "^1.35.1",
+    "dotenv-cli": "7.1.0",
     "eslint-config-custom": "*",
     "prettier": "2.8.4",
-    "turbo": "1.8.3",
-    "dotenv-cli": "7.1.0"
+    "turbo": "1.8.3"
   },
   "engines": {
     "node": ">=14.0.0"
   },
-  "dependencies": {},
   "packageManager": "yarn@1.22.17"
 }
