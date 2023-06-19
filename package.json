@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "build": "turbo run build",
-    "test": "turbo run test",
+    "test": "turbo run test && npx playwright test",
     "dev": "NODE_ENV=development turbo run dev",
     "proxy": "krakend run -d -c krakend/krakend-dev.json",
     "clean": "turbo run clean",
