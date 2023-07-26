@@ -4,7 +4,7 @@ name: CD
 # The triggers for the workflow: push to main branch and pull requests
 on:
   push:
-    branches: ["main"]
+    branches: ["main, tests"]
   pull_request:
     types: [opened, synchronize]
     branches: ["main"]
