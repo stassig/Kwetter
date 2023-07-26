@@ -32,7 +32,6 @@ This application also features monitoring, logging, and alerting systems using t
 A demo of the application can be found at the following link: 
 
 [Link to the demo video on Google Drive](https://drive.google.com/file/d/13oyOHfVDi_CC_UYl4tFuhxe3i01Oj9un/view?usp=sharing)
-Users who click the link will be redirected to the video on Google Drive. If the video is set to 
 
 ## Setup and Installation
 
@@ -51,7 +50,7 @@ Follow these steps to get Kwetter up and running on your local machine for devel
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/kwetter.git
+git clone https://github.com/stassig/IndividualProject.git
 ```
 
 2. Install the dependencies:
@@ -112,7 +111,7 @@ This application is deployed in a Kubernetes cluster on Azure, with Azure Contai
 K6 is used for load testing and Playwright for end-to-end testing. To run the load tests:
 
 ```bash
-k6 run script.js
+k6 run loadtest.js
 ```
 
 To run the end-to-end tests:
