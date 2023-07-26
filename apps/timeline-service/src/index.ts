@@ -13,9 +13,7 @@ const port = 3003; // put the ports as env variables as well
 // !TO DO: Fix env variables to work with docker
 
 // MongoDB connection string
-const mongoURI =
-  process.env.DB_URL_TIMELINE ||
-  "mongodb+srv://stassig:LLy9oetA2323VOFY@kwetterdb.dv7mwqw.mongodb.net/Timelines";
+const mongoURI = process.env.DB_URL_TIMELINE;
 
 if (!mongoURI) {
   throw new Error("Please set DB_URL_TIMELINE in your .env file");

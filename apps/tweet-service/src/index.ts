@@ -12,9 +12,7 @@ const port = 3001; // put the ports as env variables as well
 // !TO DO: Fix env variables to work with docker
 
 // MongoDB connection string
-const mongoURI =
-  process.env.DB_URL_TWEET ||
-  "mongodb+srv://stassig:LLy9oetA2323VOFY@kwetterdb.dv7mwqw.mongodb.net/Users";
+const mongoURI = process.env.DB_URL_TWEET;
 
 if (!mongoURI) {
   throw new Error("Please set DB_URL_TWEET in your .env file");
