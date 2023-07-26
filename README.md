@@ -1,6 +1,6 @@
 # Kwetter
 
-Welcome to Kwetter, a scalable Twitter-clone application developed as part of a university project, housed in a Turbo monorepo. The platform allows users to post tweets containing text and links, engage with posts by liking them, and follow other users to stay up-to-date with their tweets. All these features are accessible to everyone on Kwetter.
+Welcome to Kwetter, a scalable Twitter-clone application housed in a Turbo monorepo. The platform allows users to post tweets containing text and links, engage with posts by liking them, and follow other users to stay up-to-date with their tweets. All these features are accessible to everyone on Kwetter.
 
 ![C2_Container_Diagram drawio](https://github.com/stassig/IndividualProject/assets/78664231/022e3421-40e1-4ed2-8c96-953d53fbaace)
 
