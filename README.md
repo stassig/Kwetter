@@ -31,7 +31,7 @@ This application also features monitoring, logging, and alerting systems using t
 
 A demo of the application can be found at the following link: 
 
-![Link to the demo video on Google Drive](https://drive.google.com/file/d/13oyOHfVDi_CC_UYl4tFuhxe3i01Oj9un/view?usp=sharing)
+[Link to the demo video on Google Drive](https://drive.google.com/file/d/13oyOHfVDi_CC_UYl4tFuhxe3i01Oj9un/view?usp=sharing)
 
 ## Setup and Installation
 
