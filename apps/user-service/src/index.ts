@@ -10,9 +10,7 @@ dotenv.config({ path: "../../.env.local" });
 const port = 3002;
 
 // MongoDB connection string
-const mongoURI =
-  process.env.DB_URL_USER ||
-  "mongodb+srv://stassig:LLy9oetA2323VOFY@kwetterdb.dv7mwqw.mongodb.net/Users";
+const mongoURI = process.env.DB_URL_USER;
 
 if (!mongoURI) {
   throw new Error("Please set DB_URL_USER in your .env file");
