@@ -25,7 +25,7 @@ jobs:
     steps:
       # Checks out the code from the repository
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Logs into the ACR using Azure's Docker login action
       - name: Log in to ACR
@@ -79,7 +79,7 @@ jobs:
     steps:
       # Checks out the code from the repository
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Deploys to AKS by applying the Kubernetes configuration
       - name: Deploy to AKS
