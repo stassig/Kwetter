@@ -50,7 +50,7 @@ Follow these steps to get Kwetter up and running on your local machine for devel
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/stassig/IndividualProject.git
+git clone https://github.com/stassig/Kwetter.git
 ```
 
 2. Install the dependencies:
