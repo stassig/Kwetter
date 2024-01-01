@@ -22,7 +22,7 @@
     "@types/cors": "^2.8.10",
     "@types/express": "^4.17.12",
     "@types/morgan": "^1.9.2",
-    "@types/node": "^15.12.2",
+    "@types/node": "^20.10.6",
     "esbuild": "^0.14.38",
     "esbuild-register": "^3.3.2",
     "eslint": "^7.32.0",
